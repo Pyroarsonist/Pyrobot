@@ -7,6 +7,10 @@ export default () => {
 
     // todo: logs
     const text = triggers(msg.text);
-    await bot.sendMessage(chatId, text);
+    if (msg.chat.type === 'private') {
+      await bot.sendMessage(chatId, text);
+    }
+    if (msg.text.match(/pyro|пбот/gi) || msg.reply_to_message)
+      await bot.sendMessage(chatId, text);
   });
 };
