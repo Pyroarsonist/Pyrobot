@@ -10,7 +10,7 @@ export default () => {
     if (msg.chat.type === 'private') {
       await bot.sendMessage(chatId, text);
     }
-    if (msg.text.match(/pyro|пбот/gi) || msg.reply_to_message)
+    if (msg.text.match(/pyro|пбот|pbot/gi) || msg.reply_to_message)
       await bot.sendMessage(chatId, text);
   });
 };
