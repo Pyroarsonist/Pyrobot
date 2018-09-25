@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { regexes, answers } from '../../constants';
 
 export default text => {
+  if (!text) return _.sample(answers);
   let response = null;
 
   regexes.map(r => {

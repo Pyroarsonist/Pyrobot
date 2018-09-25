@@ -1,4 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api';
+import logger from './logger';
 import commamds from '../data/commands';
 import { server, bot as botConfig, sslFolder } from '../config';
 
@@ -29,6 +30,7 @@ export default () =>
       // loading commands
       commamds();
     } catch (e) {
+      logger.error(e);
       rej(e);
     }
 

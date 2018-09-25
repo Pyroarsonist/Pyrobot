@@ -4,6 +4,7 @@ import { createServer } from 'http';
 import 'isomorphic-fetch';
 import bodyParser from 'body-parser';
 
+import logger from './core/logger';
 import telegram from './core/telegram';
 import { server as serverConfig, bot } from './config';
 
@@ -35,6 +36,7 @@ app.post(`/bot${bot.token}`, (req, res) => {
 
 promise.then(() => {
   // init server
+  logger.info('Starting logger');
   server.listen(serverConfig.port, () => {
     console.info(`Pyrobot server starts at port: ${serverConfig.port}`);
   });
