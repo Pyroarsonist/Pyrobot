@@ -37,6 +37,11 @@ export default () => {
       msg.reply_to_message && msg.reply_to_message.from.id === botId;
 
     if (msg.text.match(/pyro|пбот|pbot/gi) || needReply) {
+      if (plotTrigger) {
+        await bot.sendPhoto(chatId, plotUrl);
+        return logger.info(`Sent plot to ${chatId}`);
+      }
+
       text = triggers(msg.text);
 
       await bot.sendMessage(chatId, text, {
