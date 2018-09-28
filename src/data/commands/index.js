@@ -23,7 +23,7 @@ export default () => {
     // todo: logs
 
     if (msg.chat.type === 'private') {
-      if (plotTrigger) {
+      if (plotTrigger(msg.text)) {
         await bot.sendPhoto(chatId, plotUrl);
         return logger.info(`Sent plot to ${chatId}`);
       }
@@ -37,7 +37,7 @@ export default () => {
       msg.reply_to_message && msg.reply_to_message.from.id === botId;
 
     if (msg.text.match(/pyro|пбот|pbot/gi) || needReply) {
-      if (plotTrigger) {
+      if (plotTrigger(msg.text)) {
         await bot.sendPhoto(chatId, plotUrl);
         return logger.info(`Sent plot to ${chatId}`);
       }
