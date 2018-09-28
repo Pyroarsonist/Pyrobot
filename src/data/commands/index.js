@@ -1,7 +1,7 @@
 import { bot } from '../../core/telegram';
 import logger from '../../core/logger';
-import triggers from '../triggers/index';
-import { botId } from '../../constants';
+import triggers, { plotTrigger } from '../triggers/index';
+import { botId, plotUrl } from '../../constants';
 
 export default () => {
   bot.on('polling_error', e => {
@@ -18,21 +18,32 @@ export default () => {
     logger.info(JSON.stringify(msg));
     const chatId = msg.chat.id;
 
+    let text = null;
+
     // todo: logs
-    const text = triggers(msg.text);
+
     if (msg.chat.type === 'private') {
+      if (plotTrigger) {
+        await bot.sendPhoto(chatId, plotUrl);
+        return logger.info(`Sent plot to ${chatId}`);
+      }
+
+      text = triggers(msg.text);
       await bot.sendMessage(chatId, text);
-      logger.info(`Sent "${text}" to ${chatId}`);
+      return logger.info(`Sent "${text}" to ${chatId}`);
     }
 
     const needReply =
       msg.reply_to_message && msg.reply_to_message.from.id === botId;
+
     if (msg.text.match(/pyro|пбот|pbot/gi) || needReply) {
+      text = triggers(msg.text);
+
       await bot.sendMessage(chatId, text, {
         reply_to_message_id: needReply ? msg.message_id : null,
       });
       // todo: logger standard
-      logger.info(
+      return logger.info(
         `Sent "${text}" to ${msg.from.id}${
           msg.from.username ? `(@${msg.from.username})` : ''
         } into ${msg.chat.id}${
@@ -40,5 +51,6 @@ export default () => {
         }${needReply ? ` via reply: ${msg.message_id}` : ''}`,
       );
     }
+    return null;
   });
 };
