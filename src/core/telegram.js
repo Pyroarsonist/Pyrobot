@@ -1,15 +1,8 @@
 import Telegraf from 'telegraf';
+import fs from 'fs';
 import logger from './logger';
 import commamds from '../data/commands';
-import { server, bot as botConfig, sslFolder } from '../config';
-
-// const options = {
-//   webHook: {
-//     port: server.port,
-//     key: `${sslFolder}/key.pem`, // Path to file with PEM private key
-//     cert: `${sslFolder}/server.crt`, // Path to file with PEM certificate
-//   },
-// };
+import { server, bot as botConfig, tlsPaths, sslFolder } from '../config';
 
 // eslint-disable-next-line import/no-mutable-exports
 let bot = null;
@@ -20,23 +13,33 @@ export default () =>
     }
     try {
       console.info('Initializing telegram bot');
-      // todo: add webhooks
-      if (server.publicUrl && server.publicPort && sslFolder) {
-        // telegram needs a ssl for webhook
-        // bot = new Telegraf(botConfig.token, options);
-        // bot.setWebHook(
-        //   `${server.publicUrl}:${server.publicPort}/bot${botConfig.token}`,
-        // );
-      } else {
-        bot = new Telegraf(botConfig.token);
-      }
-
+      bot = new Telegraf(botConfig.token);
       // loading commands
+
       commamds();
 
-      // starting polling
-      bot.startPolling();
+      // setting up connection webhooks or polling
+      if (sslFolder) {
+        const tlsOptions = {
+          key: fs.readFileSync(tlsPaths.key), // Path to file with PEM private key
+          cert: fs.readFileSync(tlsPaths.cert), // Path to file with PEM certificate,
+          ca: [
+            // This is necessary only if the client uses the self-signed certificate.
+            fs.readFileSync(tlsPaths.ca),
+          ],
+        };
+        // server side
+        bot.telegram.setWebhook(
+          `${server.url}:${server.port}/bot${botConfig.token}`,
+          {
+            source: tlsPaths.ca,
+          },
+        );
+        // telegram side
+        bot.startWebhook(`/bot${botConfig.token}`, tlsOptions, 8443);
+      } else bot.startPolling();
     } catch (e) {
+      console.error(e);
       logger.error(e);
       rej(e);
     }

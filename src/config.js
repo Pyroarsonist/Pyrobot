@@ -3,15 +3,21 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const server = {
-  port: process.env.PORT || 22222,
-  publicUrl: process.env.PUBLIC_URL,
-  publicPort: process.env.PUBLIC_PORT,
+  port: process.env.PORT || 8443,
+  url: process.env.URL,
 };
 
 export const sslFolder = process.env.SSL_FOLDER;
 
 export const bot = {
   token: process.env.TELEGRAM_BOT_TOKEN,
+};
+
+// https://github.com/nodejs/help/issues/253 or create_ssl_serticifates.sh for creating certificates
+export const tlsPaths = {
+  key: `${sslFolder}certs/server/server.key`, // Path to file with PEM private key
+  cert: `${sslFolder}certs/server/server.crt`, // Path to file with PEM certificate (should be with your url)
+  ca: `${sslFolder}certs/ca/ca.crt`, // This is necessary only if the client uses the self-signed certificate.
 };
 
 // eslint-disable-next-line no-underscore-dangle
