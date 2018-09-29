@@ -4,56 +4,56 @@ import triggers, { plotTrigger } from '../triggers/index';
 import { botId, plotUrl } from '../../constants';
 
 export default () => {
-  bot.on('polling_error', e => {
-    logger.error(e);
-    console.error(e); // => 'EFATAL'
+  bot.catch(err => {
+    console.error(err);
+    logger.error(err);
   });
 
-  bot.on('webhook_error', e => {
-    logger.error(e);
-    console.error(e); // => 'EPARSE'
-  });
-
-  bot.on('message', async msg => {
-    logger.info(JSON.stringify(msg));
-    const chatId = msg.chat.id;
+  bot.on('text', async ctx => {
+    const { message } = ctx;
+    logger.info(JSON.stringify(message));
+    const chatId = message.chat.id;
 
     let text = null;
 
     // todo: logs
 
-    if (msg.chat.type === 'private') {
-      if (plotTrigger(msg.text)) {
-        await bot.sendPhoto(chatId, plotUrl);
+    if (message.chat.type === 'private') {
+      if (plotTrigger(message.text)) {
+        await ctx.replyWithPhoto(plotUrl);
         return logger.info(`Sent plot to ${chatId}`);
       }
 
-      text = triggers(msg.text);
-      await bot.sendMessage(chatId, text);
+      text = triggers(message.text);
+      await ctx.reply(text);
       return logger.info(`Sent "${text}" to ${chatId}`);
     }
 
     const needReply =
-      msg.reply_to_message && msg.reply_to_message.from.id === botId;
+      message.reply_to_message && message.reply_to_message.from.id === botId;
 
-    if (msg.text.match(/pyro|пбот|pbot/gi) || needReply) {
-      if (plotTrigger(msg.text)) {
-        await bot.sendPhoto(chatId, plotUrl);
+    if (message.text.match(/pyro|пбот|pbot/gi) || needReply) {
+      const replyOptions = {
+        reply_to_message_id: needReply ? message.message_id : null,
+      };
+
+      if (plotTrigger(message.text)) {
+        await ctx.replyWithPhoto(plotUrl, replyOptions);
         return logger.info(`Sent plot to ${chatId}`);
       }
 
-      text = triggers(msg.text);
+      text = triggers(message.text);
 
-      await bot.sendMessage(chatId, text, {
-        reply_to_message_id: needReply ? msg.message_id : null,
-      });
+      await ctx.reply(text, replyOptions);
       // todo: logger standard
       return logger.info(
-        `Sent "${text}" to ${msg.from.id}${
-          msg.from.username ? `(@${msg.from.username})` : ''
-        } into ${msg.chat.id}${
-          msg.chat ? `${`(${msg.chat.title} - @${msg.chat.username})`}` : ''
-        }${needReply ? ` via reply: ${msg.message_id}` : ''}`,
+        `Sent "${text}" to ${message.from.id}${
+          message.from.username ? `(@${message.from.username})` : ''
+        } into ${message.chat.id}${
+          message.chat
+            ? `${`(${message.chat.title} - @${message.chat.username})`}`
+            : ''
+        }${needReply ? ` via reply: ${message.message_id}` : ''}`,
       );
     }
     return null;
