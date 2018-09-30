@@ -9,9 +9,7 @@ export const server = {
 
 export const sslFolder = process.env.SSL_FOLDER;
 
-export const bot = {
-  token: process.env.TELEGRAM_BOT_TOKEN,
-};
+export const token = process.env.TELEGRAM_BOT_TOKEN;
 
 // https://github.com/nodejs/help/issues/253 or create_ssl_serticifates.sh for creating certificates
 export const tlsPaths = {

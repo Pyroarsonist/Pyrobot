@@ -2,17 +2,17 @@ import Telegraf from 'telegraf';
 import fs from 'fs';
 import logger from './logger';
 import commamds from '../data/commands';
-import { server, bot as botConfig, tlsPaths, sslFolder } from '../config';
+import { server, token, tlsPaths, sslFolder } from '../config';
 
 // eslint-disable-next-line import/no-mutable-exports
 let bot = null;
 export default async () => {
-  if (!botConfig.token) {
+  if (!token) {
     throw new Error('No telegram bot key supplied');
   }
   try {
     console.info('Initializing telegram bot');
-    bot = new Telegraf(botConfig.token);
+    bot = new Telegraf(token);
     // loading commands
 
     commamds();
@@ -31,15 +31,18 @@ export default async () => {
         ],
       };
       // server side
-      bot.telegram.setWebhook(
-        `${server.url}:${server.port}/bot${botConfig.token}`,
-        {
-          source: tlsPaths.ca,
-        },
-      );
+      bot.telegram.setWebhook(`${server.url}:${server.port}/bot${token}`, {
+        source: tlsPaths.ca,
+      });
       // telegram side
-      bot.startWebhook(`/bot${botConfig.token}`, tlsOptions, 8443);
-    } else bot.startPolling();
+      bot.startWebhook(`/bot${token}`, tlsOptions, 8443);
+      console.info('Started with webhook');
+      logger.info('Started with webhook');
+    } else {
+      bot.startPolling();
+      console.info('Started with polling');
+      logger.info('Started with polling');
+    }
   } catch (e) {
     console.error(e);
     logger.error(e);
