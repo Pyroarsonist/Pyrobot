@@ -1,22 +1,11 @@
-import _ from 'lodash';
+import plotTrigger from './plotTrigger';
+import defaultTrigger from './defaultTrigger';
+import textTrigger from './textTrigger';
 
-import { regexes, answers } from '../../constants';
-
-import plotTrigger from './plot';
-
-export default text => {
-  if (!text) return _.sample(answers);
-  let response = null;
-
-  regexes.map(r => {
-    const ret = text.match(r.regex);
-    if (ret) {
-      response = r.answer;
-    }
-    return ret;
-  });
-  if (!response) response = _.sample(answers);
-  return response;
-};
-
-export { plotTrigger };
+// order matters
+function* generateTriggers() {
+  yield plotTrigger;
+  yield textTrigger;
+  return defaultTrigger;
+}
+export default generateTriggers;
