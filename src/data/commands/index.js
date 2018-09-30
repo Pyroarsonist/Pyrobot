@@ -1,7 +1,22 @@
 import { bot } from '../../core/telegram';
 import logger from '../../core/logger';
-import triggers, { plotTrigger } from '../triggers/index';
-import { botId, plotUrl } from '../../constants';
+import triggers from '../triggers';
+import { pyroBotId } from '../../constants';
+
+const checkOnTriggers = async ctx => {
+  let wasTriggered = false;
+  const generator = triggers();
+
+  let genFunc = null;
+
+  while (!wasTriggered) {
+    genFunc = generator.next().value;
+    // eslint-disable-next-line no-await-in-loop
+    wasTriggered = await genFunc(ctx);
+  }
+
+  return wasTriggered;
+};
 
 export default () => {
   bot.catch(err => {
@@ -11,51 +26,29 @@ export default () => {
 
   bot.on('text', async ctx => {
     const { message } = ctx;
-    logger.info(JSON.stringify(message));
-    const chatId = message.chat.id;
-
-    let text = null;
-
     // todo: logs
+    // todo: logger standard
 
-    if (message.chat.type === 'private') {
-      if (plotTrigger(message.text)) {
-        await ctx.replyWithPhoto(plotUrl);
-        return logger.info(`Sent plot to ${chatId}`);
-      }
+    logger.info(JSON.stringify(message));
 
-      text = triggers(message.text);
-      await ctx.reply(text);
-      return logger.info(`Sent "${text}" to ${chatId}`);
-    }
-
+    // todo refactor reply
     const needReply =
-      message.reply_to_message && message.reply_to_message.from.id === botId;
+      message.reply_to_message &&
+      message.reply_to_message.from.id === pyroBotId;
 
-    if (message.text.match(/pyro|пбот|pbot/gi) || needReply) {
-      const replyOptions = {
-        reply_to_message_id: needReply ? message.message_id : null,
-      };
-
-      if (plotTrigger(message.text)) {
-        await ctx.replyWithPhoto(plotUrl, replyOptions);
-        return logger.info(`Sent plot to ${chatId}`);
+    if (
+      message.text.match(/pyro|пбот|pbot/gi) ||
+      needReply ||
+      message.chat.type === 'private'
+    ) {
+      const wasTriggered = await checkOnTriggers(ctx);
+      if (!wasTriggered) {
+        const error = `Bot was not able to respond\nMessage:${JSON.stringify(
+          message,
+        )}`;
+        logger.error(error);
+        console.error(error);
       }
-
-      text = triggers(message.text);
-
-      await ctx.reply(text, replyOptions);
-      // todo: logger standard
-      return logger.info(
-        `Sent "${text}" to ${message.from.id}${
-          message.from.username ? `(@${message.from.username})` : ''
-        } into ${message.chat.id}${
-          message.chat
-            ? `${`(${message.chat.title} - @${message.chat.username})`}`
-            : ''
-        }${needReply ? ` via reply: ${message.message_id}` : ''}`,
-      );
     }
-    return null;
   });
 };
