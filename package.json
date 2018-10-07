@@ -1,6 +1,6 @@
 {
   "name": "pyrobot",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "description": "Pyrobot",
   "main": "src/index.js",
@@ -20,11 +20,13 @@
     "dotenv": "^6.0.0",
     "dvach.js": "^0.0.5",
     "events": "^3.0.0",
+    "google-images": "^2.1.0",
     "html2plaintext": "^2.1.0",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "named-regexp": "^0.1.1",
+    "random-picture": "^0.1.1",
     "telegraf": "^3.24.0",
     "winston": "^3.1.0",
     "winston-daily-rotate-file": "^3.3.2"

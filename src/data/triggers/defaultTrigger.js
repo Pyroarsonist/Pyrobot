@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import logger from '../../core/logger';
-import { pyroBotId, answers } from '../../constants';
+import logger from 'core/logger';
+import { pyroBotId, answers } from 'constants';
 
 export default async ctx => {
   // cannot be

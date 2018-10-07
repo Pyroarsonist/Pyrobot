@@ -18,5 +18,10 @@ export const tlsPaths = {
   ca: `${sslFolder}certs/ca/ca.crt`, // This is necessary only if the client uses the self-signed certificate.
 };
 
+export const google = {
+  cse: process.env.GOOGLE_CSE,
+  api: process.env.GOOGLE_API_KEY,
+};
+
 // eslint-disable-next-line no-underscore-dangle
 global.__DEV__ = process.env.NODE_ENV !== 'production';
