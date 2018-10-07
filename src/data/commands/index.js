@@ -1,7 +1,7 @@
-import { bot } from '../../core/telegram';
-import logger from '../../core/logger';
+import { bot } from 'core/telegram';
+import logger from 'core/logger';
+import { pyroBotId } from 'constants';
 import triggers from '../triggers';
-import { pyroBotId } from '../../constants';
 
 const checkOnTriggers = async ctx => {
   let wasTriggered = false;

@@ -1,5 +1,5 @@
-import { pyroBotId, plotUrl } from '../../constants';
-import logger from '../../core/logger';
+import { pyroBotId, plotUrl } from 'constants';
+import logger from 'core/logger';
 
 export default async ctx => {
   if (!ctx || !ctx.message || !ctx.message.text) return false;

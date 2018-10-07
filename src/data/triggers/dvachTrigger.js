@@ -20,7 +20,7 @@ const getPost = (threads, board) => {
   const defRet =
     'Найс запрос, даунец\nСразу видно опытного двачера\nИди ракуй на b';
   if (!threads || !threads.length) return defRet;
-  const thread = sample(threads.filter(x => x || x.post));
+  const thread = sample(threads.filter(x => x && x.post));
   if (!thread) return null;
   if (thread.status === 404) return defRet;
   let resStr = `/${board}/ #${thread.num}\n`;
