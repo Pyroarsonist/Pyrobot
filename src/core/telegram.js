@@ -17,11 +17,14 @@ export default async () => {
 
     commamds();
 
-    // removing webhooks
-    await bot.telegram.deleteWebhook();
-
     // setting up connection webhooks or polling
-    if (sslFolder) {
+    if (__DEV__ || !sslFolder) {
+      bot.startPolling();
+      console.info('Started with polling');
+      logger.info('Started with polling');
+    } else {
+      // removing webhooks
+      await bot.telegram.deleteWebhook();
       const tlsOptions = {
         key: fs.readFileSync(tlsPaths.key), // Path to file with PEM private key
         cert: fs.readFileSync(tlsPaths.cert), // Path to file with PEM certificate,
@@ -38,10 +41,6 @@ export default async () => {
       bot.startWebhook(`/bot${token}`, tlsOptions, 8443);
       console.info('Started with webhook');
       logger.info('Started with webhook');
-    } else {
-      bot.startPolling();
-      console.info('Started with polling');
-      logger.info('Started with polling');
     }
   } catch (e) {
     console.error(e);
