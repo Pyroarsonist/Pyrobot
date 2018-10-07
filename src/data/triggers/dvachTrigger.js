@@ -26,6 +26,7 @@ const getPost = (threads, board) => {
   let resStr = `/${board}/ #${thread.num}\n`;
   resStr += `${thread.post.subject}\n\n`;
   resStr += `${h2p(thread.post.comment)}\n`;
+  resStr += `Ссылочка: https://2ch.hk/${board}/res/${thread.num}.html\n`;
   return resStr;
 };
 
