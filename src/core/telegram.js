@@ -44,7 +44,7 @@ export default async () => {
     }
   } catch (e) {
     console.error(e);
-    logger.error(e);
+    logger.error(e.toString());
   }
 };
 

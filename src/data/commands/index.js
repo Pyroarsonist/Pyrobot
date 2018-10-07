@@ -21,7 +21,7 @@ const checkOnTriggers = async ctx => {
 export default () => {
   bot.catch(err => {
     console.error(err);
-    logger.error(err);
+    logger.error(err.toString());
   });
 
   bot.on('text', async ctx => {
@@ -46,7 +46,7 @@ export default () => {
         const error = `Bot was not able to respond\nMessage:${JSON.stringify(
           message,
         )}`;
-        logger.error(error);
+        logger.error(error.toString());
         console.error(error);
       }
     }
