@@ -17,7 +17,11 @@ const stickerPackNames = [
 
 const getStickerFileName = async ctx => {
   const name = sample(stickerPackNames);
+  // todo: telegram cant get stickers in webhooks mode
+  ctx.webhookReply = false;
   const pack = await ctx.getStickerSet(name);
+  ctx.webhookReply = true;
+
   if (!pack || !pack.stickers) return null;
   return sample(pack.stickers.filter(x => x && x.file_id));
 };
