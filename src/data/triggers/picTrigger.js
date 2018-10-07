@@ -37,7 +37,7 @@ export default async ctx => {
       if (arg) {
         const client = new GoogleImages(google.cse, google.api);
         const images = await client.search(arg);
-        const image = sample(images.filter(x => x || x.url));
+        const image = sample(images.filter(x => x && x.url));
         await ctx.replyWithPhoto(image.url, replyOptions);
         logger.info(
           `Sent random picture ${image.url} to ${JSON.stringify(ctx.chat)}`,

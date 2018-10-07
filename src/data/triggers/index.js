@@ -3,9 +3,11 @@ import defaultTrigger from './defaultTrigger';
 import textTrigger from './textTrigger';
 import dvachTrigger from './dvachTrigger';
 import picTrigger from './picTrigger';
+import jojoTrigger from './jojoTrigger';
 
 // order matters
 function* generateTriggers() {
+  yield jojoTrigger;
   yield dvachTrigger;
   yield picTrigger;
   yield plotTrigger;
