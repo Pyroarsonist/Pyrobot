@@ -37,11 +37,15 @@ export default async ctx => {
 
     try {
       const file = await getStickerFileName(ctx);
-      const answer = file ? file.file_id : 'jare jare daze';
-      await ctx.replyWithSticker(answer, replyOptions);
-      logger.info(
-        `Sent jojo sticker fileName to ${JSON.stringify(ctx.chat)}\n`,
-      );
+      if (file) {
+        await ctx.replyWithSticker(file.file_id, replyOptions);
+        logger.info(
+          `Sent jojo sticker fileName to ${JSON.stringify(ctx.chat)}\n`,
+        );
+      } else {
+        await ctx.reply('jare jare daze', replyOptions);
+        logger.info(`Sent jare jare daze to ${JSON.stringify(ctx.chat)}\n`);
+      }
     } catch (e) {
       console.error(e);
       logger.error(e.toString());
