@@ -4,9 +4,15 @@ import textTrigger from './textTrigger';
 import dvachTrigger from './dvachTrigger';
 import picTrigger from './picTrigger';
 import jojoTrigger from './jojoTrigger';
+import sayInChatTrigger from './sayInChatTrigger';
+import getChatsTrigger from './getChatsTrigger';
 
 // order matters
 function* generateTriggers() {
+  // admin triggers
+  yield sayInChatTrigger;
+  yield getChatsTrigger;
+
   // triggers with arguments
   yield picTrigger;
 
