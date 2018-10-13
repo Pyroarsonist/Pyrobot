@@ -1,6 +1,7 @@
 import { bot } from 'core/telegram';
 import logger from 'core/logger';
 import { pyroBotId } from 'constants';
+import { find } from 'lodash';
 import triggers from '../triggers';
 
 const checkOnTriggers = async ctx => {
@@ -26,6 +27,12 @@ export default () => {
 
   bot.on('text', async ctx => {
     const { message } = ctx;
+    const chat = { id: ctx.chat.id, type: ctx.chat.type };
+    if (!find(bot.chats, { id: chat.id })) {
+      bot.chats.push(chat);
+      logger.info(`Added to bot chats${JSON.stringify(chat)}`);
+    }
+
     // todo: logs
     // todo: logger standard
 

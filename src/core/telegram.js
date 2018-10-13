@@ -13,6 +13,10 @@ export default async () => {
   try {
     console.info('Initializing telegram bot');
     bot = new Telegraf(token);
+
+    // todo: save chats to redis or another db
+    bot.chats = [];
+
     // loading commands
 
     commamds();
