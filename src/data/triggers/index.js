@@ -7,10 +7,15 @@ import jojoTrigger from './jojoTrigger';
 
 // order matters
 function* generateTriggers() {
-  yield jojoTrigger;
-  yield dvachTrigger;
+  // triggers with arguments
   yield picTrigger;
+
+  // triggers with code words
+  yield dvachTrigger;
+  yield jojoTrigger;
   yield plotTrigger;
+
+  // regexes
   yield textTrigger;
   return defaultTrigger;
 }

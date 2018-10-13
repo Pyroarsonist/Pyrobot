@@ -7,7 +7,10 @@ import GoogleImages from 'google-images';
 
 import { google } from 'config';
 
-const regex = /картинка|pic|img|image|пикча/gi;
+const regex = /картинка|pic|img|image|пик/gi;
+
+const range = 10;
+
 const getArg = text => {
   if (text) {
     const split = text.split(' ');
@@ -33,12 +36,11 @@ export default async ctx => {
 
     const arg = getArg(ctx.message.text);
 
-    const defaultPic = 'https://telegram.org/img/t_logo.png';
     try {
       if (arg) {
         const client = new GoogleImages(google.cse, google.api);
         const images = await client.search(arg);
-        const image = sample(images.filter(x => x && x.url));
+        const image = sample(images.slice(range).filter(x => x && x.url));
         await ctx.replyWithPhoto(image.url, replyOptions);
         logger.info(
           `Sent random picture ${image.url} to ${JSON.stringify(ctx.chat)}`,
@@ -53,7 +55,7 @@ export default async ctx => {
     } catch (e) {
       console.error(e);
       logger.error(e.toString());
-      await ctx.replyWithPhoto(defaultPic, replyOptions);
+      await ctx.reply('нет будет вам картинки, заебали', replyOptions);
     }
 
     return true;
