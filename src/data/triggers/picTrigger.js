@@ -9,7 +9,7 @@ import { google } from 'config';
 
 const regex = /картинка|pic|img|image|пик/gi;
 
-const range = 10;
+const range = 5;
 
 const getArg = text => {
   if (text) {
@@ -40,7 +40,7 @@ export default async ctx => {
       if (arg) {
         const client = new GoogleImages(google.cse, google.api);
         const images = await client.search(arg);
-        const image = sample(images.slice(range).filter(x => x && x.url));
+        const image = sample(images.filter(x => x && x.url).slice(range));
         await ctx.replyWithPhoto(image.url, replyOptions);
         logger.info(
           `Sent random picture ${image.url} to ${JSON.stringify(ctx.chat)}`,
