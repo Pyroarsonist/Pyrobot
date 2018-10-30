@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import 'isomorphic-fetch';
 
 import logger from './core/logger';

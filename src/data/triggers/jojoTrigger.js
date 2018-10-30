@@ -23,17 +23,16 @@ const getStickerFileName = async ctx => {
   ctx.webhookReply = true;
 
   if (!pack || !pack.stickers) return null;
-  return sample(pack.stickers.filter(x => x && x.file_id));
+  // eslint-disable-next-line camelcase
+  return sample(pack.stickers.filter(x => x?.file_id));
 };
 
 export default async ctx => {
-  if (!ctx || !ctx.message || !ctx.message.text) return false;
+  if (!ctx?.message?.text) return false;
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
-    const needReply =
-      ctx.message.reply_to_message &&
-      ctx.message.reply_to_message.from.id === pyroBotId;
+    const needReply = ctx.message.reply_to_message?.from?.id === pyroBotId;
 
     const replyOptions = {
       reply_to_message_id: needReply ? ctx.message.message_id : null,

@@ -2,7 +2,7 @@ import { regexes, pyroBotId } from 'constants';
 import logger from 'core/logger';
 
 export default async ctx => {
-  if (!ctx || !ctx.message || !ctx.message.text) return false;
+  if (!ctx?.message?.text) return false;
   let response = null;
 
   regexes.map(r => {
@@ -13,9 +13,7 @@ export default async ctx => {
     return ret;
   });
   if (response) {
-    const needReply =
-      ctx.message.reply_to_message &&
-      ctx.message.reply_to_message.from.id === pyroBotId;
+    const needReply = ctx.message.reply_to_message?.from?.id === pyroBotId;
 
     const replyOptions = {
       reply_to_message_id: needReply ? ctx.message.message_id : null,
