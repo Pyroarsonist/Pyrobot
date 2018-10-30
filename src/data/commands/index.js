@@ -39,9 +39,7 @@ export default () => {
     logger.info(JSON.stringify(message));
 
     // todo refactor reply
-    const needReply =
-      message.reply_to_message &&
-      message.reply_to_message.from.id === pyroBotId;
+    const needReply = message?.reply_to_message?.from?.id === pyroBotId;
 
     if (
       message.text.match(/pyro|пбот|pbot/gi) ||

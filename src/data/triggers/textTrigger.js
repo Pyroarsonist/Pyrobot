@@ -13,7 +13,7 @@ export default async ctx => {
     return ret;
   });
   if (response) {
-    const needReply = ctx.message.reply_to_message?.from?.id === pyroBotId;
+    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
 
     const replyOptions = {
       reply_to_message_id: needReply ? ctx.message.message_id : null,

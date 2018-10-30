@@ -2,6 +2,7 @@ import 'isomorphic-fetch';
 
 import logger from './core/logger';
 import telegram from './core/telegram';
+import mongo from './core/mongo';
 
 process
   .on('unhandledRejection', (reason, p) => {
@@ -13,7 +14,9 @@ process
     process.exit(1);
   });
 
-const promise = telegram().catch(err => console.error(err.stack));
+const promise = telegram()
+  .then(mongo)
+  .catch(err => console.error(err.stack));
 
 promise.then(() => {
   // init server

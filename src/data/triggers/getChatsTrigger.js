@@ -11,7 +11,7 @@ export default async ctx => {
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
-    const needReply = ctx.message.reply_to_message?.from?.id === pyroBotId;
+    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
 
     const replyOptions = {
       reply_to_message_id: needReply ? ctx.message.message_id : null,
