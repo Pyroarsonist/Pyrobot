@@ -19,6 +19,7 @@
     "debug": "^4.1.0",
     "dotenv": "^6.0.0",
     "dvach.js": "^0.0.5",
+    "escape-string-regexp": "^1.0.5",
     "events": "^3.0.0",
     "google-images": "^2.1.0",
     "html2plaintext": "^2.1.0",
