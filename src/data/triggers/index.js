@@ -6,11 +6,13 @@ import picTrigger from './picTrigger';
 import jojoTrigger from './jojoTrigger';
 import sayInChatTrigger from './sayInChatTrigger';
 import getChatsTrigger from './getChatsTrigger';
+import getUsersTrigger from './getUsersTrigger';
 
 // order matters
 function* generateTriggers() {
   // admin triggers
   yield sayInChatTrigger;
+  yield getUsersTrigger;
   yield getChatsTrigger;
 
   // triggers with arguments

@@ -1,8 +1,11 @@
 import Telegraf from 'telegraf';
 import fs from 'fs';
+import debugHandler from 'debug';
 import logger from './logger';
 import commamds from '../data/commands';
 import { server, token, tlsPaths, sslFolder } from '../config';
+
+const debug = debugHandler('pyrobot:telegram');
 
 // eslint-disable-next-line import/no-mutable-exports
 let bot = null;
@@ -11,11 +14,8 @@ export default async () => {
     throw new Error('No telegram bot key supplied');
   }
   try {
-    console.info('Initializing telegram bot');
+    debug('Initializing telegram bot');
     bot = new Telegraf(token);
-
-    // todo: save chats to redis or another db
-    bot.chats = [];
 
     // loading commands
 
@@ -24,7 +24,7 @@ export default async () => {
     // setting up connection webhooks or polling
     if (__DEV__ || !sslFolder) {
       bot.startPolling();
-      console.info('Started with polling');
+      debug('Started with polling');
       logger.info('Started with polling');
     } else {
       // removing webhooks
@@ -43,7 +43,7 @@ export default async () => {
       });
       // telegram side
       bot.startWebhook(`/bot${token}`, tlsOptions, 8443);
-      console.info('Started with webhook');
+      debug('Started with webhook');
       logger.info('Started with webhook');
     }
   } catch (e) {

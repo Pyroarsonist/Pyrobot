@@ -1,8 +1,9 @@
-import 'babel-polyfill';
 import 'isomorphic-fetch';
 
-import logger from './core/logger';
+import debugHandler from 'debug';
 import telegram from './core/telegram';
+
+const debug = debugHandler('pyrobot:index');
 
 process
   .on('unhandledRejection', (reason, p) => {
@@ -14,9 +15,8 @@ process
     process.exit(1);
   });
 
-const promise = telegram().catch(err => console.error(err.stack));
+const promise = telegram().catch(err => debug(err.stack));
 
 promise.then(() => {
   // init server
-  logger.info('Starting logger');
 });

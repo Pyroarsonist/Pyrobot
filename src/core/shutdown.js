@@ -1,4 +1,7 @@
 import _ from 'lodash';
+import debugHandler from 'debug';
+
+const debug = debugHandler('pyrobot:shutdown');
 
 const handlers = [];
 
@@ -8,8 +11,7 @@ const shutdown = async () => {
 };
 
 export default function registerShutdownHandler(func) {
-  if (!_.isFunction(func))
-    return console.info('Handler is not a function %o', func);
+  if (!_.isFunction(func)) return debug('Handler is not a function %o', func);
   handlers.push(func);
   return handlers;
 }

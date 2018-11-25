@@ -1,8 +1,15 @@
 import { bot } from 'core/telegram';
 import logger from 'core/logger';
 import { pyroBotId } from 'constants';
-import { find } from 'lodash';
+import debugHandler from 'debug';
+import {
+  findOrCreateUser,
+  findOrCreateChat,
+  findOrCreateMessage,
+} from 'data/models';
 import triggers from '../triggers';
+
+const debug = debugHandler('pyrobot:commands');
 
 const checkOnTriggers = async ctx => {
   let wasTriggered = false;
@@ -21,17 +28,14 @@ const checkOnTriggers = async ctx => {
 
 export default () => {
   bot.catch(err => {
-    console.error(err);
+    debug(err);
     logger.error(err.toString());
   });
 
   bot.on('text', async ctx => {
-    const { message } = ctx;
-    const chat = { id: ctx.chat.id, type: ctx.chat.type };
-    if (!find(bot.chats, { id: chat.id })) {
-      bot.chats.push(chat);
-      logger.info(`Added to bot chats${JSON.stringify(chat)}`);
-    }
+    const chat = await findOrCreateChat(ctx.chat);
+    await findOrCreateUser(ctx.from);
+    const message = await findOrCreateMessage(ctx.message);
 
     // todo: logs
     // todo: logger standard
@@ -39,14 +43,12 @@ export default () => {
     logger.info(JSON.stringify(message));
 
     // todo refactor reply
-    const needReply =
-      message.reply_to_message &&
-      message.reply_to_message.from.id === pyroBotId;
+    const needReply = message?.replyToMessage?.from?.id === pyroBotId;
 
     if (
       message.text.match(/pyro|пбот|pbot/gi) ||
       needReply ||
-      message.chat.type === 'private'
+      chat.type === 'private'
     ) {
       const wasTriggered = await checkOnTriggers(ctx);
       if (!wasTriggered) {
@@ -54,7 +56,7 @@ export default () => {
           message,
         )}`;
         logger.error(error.toString());
-        console.error(error);
+        debug(error);
       }
     }
   });

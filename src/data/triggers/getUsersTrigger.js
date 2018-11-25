@@ -1,8 +1,8 @@
 import { pyroBotId, pyroarsonistId } from 'constants';
 import logger from 'core/logger';
-import { Chat } from 'data/models';
+import { User } from 'data/models';
 
-const regex = /чаты|chats/gi;
+const regex = /юзеры|users/gi;
 
 export default async ctx => {
   if (!ctx || !ctx.message || !ctx.message.text || !ctx.from) return false;
@@ -18,13 +18,13 @@ export default async ctx => {
     };
 
     try {
-      const chats = await Chat.find();
+      const users = await User.find();
       await ctx.reply(
-        JSON.stringify(chats.map(chat => chat.validated)),
+        JSON.stringify(users.map(user => user.validated)),
         replyOptions,
       );
       logger.info(
-        `Sent bot chats ${JSON.stringify(chats)} to ${pyroarsonistId}`,
+        `Sent bot chats ${JSON.stringify(users)} to ${pyroarsonistId}`,
       );
     } catch (e) {
       console.error(e);
