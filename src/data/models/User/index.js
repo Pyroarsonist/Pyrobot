@@ -16,7 +16,7 @@ const User = new Schema(
   },
 );
 
-User.virtual('validated').get(function() {
+function getUser() {
   return {
     id: this.id,
     username: this.username,
@@ -26,6 +26,8 @@ User.virtual('validated').get(function() {
     createdAt: date(this.createdAt),
     updatedAt: date(this.updatedAt),
   };
-});
+}
+
+User.virtual('validated').get(getUser);
 
 export default db.model('User', User);

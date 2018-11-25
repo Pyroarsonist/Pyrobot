@@ -24,7 +24,7 @@ const Chat = new Schema(
   },
 );
 
-Chat.virtual('validated').get(function() {
+function getChat() {
   return {
     id: this.id,
     username: this.username,
@@ -34,6 +34,8 @@ Chat.virtual('validated').get(function() {
     createdAt: date(this.createdAt),
     updatedAt: date(this.updatedAt),
   };
-});
+}
+
+Chat.virtual('validated').get(getChat);
 
 export default db.model('Chat', Chat);
