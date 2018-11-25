@@ -3,6 +3,7 @@ import defaultTrigger from './defaultTrigger';
 import textTrigger from './textTrigger';
 import dvachTrigger from './dvachTrigger';
 import picTrigger from './picTrigger';
+import yesOrNoTrigger from './yesOrNoTrigger';
 import jojoTrigger from './jojoTrigger';
 import sayInChatTrigger from './sayInChatTrigger';
 import getChatsTrigger from './getChatsTrigger';
@@ -17,6 +18,7 @@ function* generateTriggers() {
 
   // triggers with arguments
   yield picTrigger;
+  yield yesOrNoTrigger;
 
   // triggers with code words
   yield dvachTrigger;

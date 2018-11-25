@@ -2,7 +2,7 @@ import { pyroBotId, pyroarsonistId } from 'constants';
 import logger from 'core/logger';
 import { findIndex } from 'lodash';
 
-const regex = /say|скажи/gi;
+const regex = /send|отправь/gi;
 
 const getArgs = text => {
   if (text) {
