@@ -12,8 +12,8 @@ export default async ctx => {
   if (!ctx.message) return ctx.reply(_.sample(answers));
   const { message } = ctx;
 
-  const needReply =
-    message.reply_to_message && message.reply_to_message.from.id === pyroBotId;
+  // eslint-disable-next-line camelcase
+  const needReply = message?.reply_to_message?.from?.id === pyroBotId;
 
   const replyOptions = {
     reply_to_message_id: needReply ? message.message_id : null,

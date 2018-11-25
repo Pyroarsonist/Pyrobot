@@ -9,7 +9,7 @@ import { google } from 'config';
 
 const regex = /картинка|pic|img|image|пик/gi;
 
-const range = 5;
+const range = 15;
 
 const getArg = text => {
   if (text) {
@@ -22,13 +22,11 @@ const getArg = text => {
 };
 
 export default async ctx => {
-  if (!ctx || !ctx.message || !ctx.message.text) return false;
+  if (!ctx?.message?.text) return false;
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
-    const needReply =
-      ctx.message.reply_to_message &&
-      ctx.message.reply_to_message.from.id === pyroBotId;
+    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
 
     const replyOptions = {
       reply_to_message_id: needReply ? ctx.message.message_id : null,
@@ -40,7 +38,7 @@ export default async ctx => {
       if (arg) {
         const client = new GoogleImages(google.cse, google.api);
         const images = await client.search(arg);
-        const image = sample(images.filter(x => x && x.url).slice(range));
+        const image = sample(images.filter(x => x?.url).slice(0, range));
         await ctx.replyWithPhoto(image.url, replyOptions);
         logger.info(
           `Sent random picture ${image.url} to ${JSON.stringify(ctx.chat)}`,

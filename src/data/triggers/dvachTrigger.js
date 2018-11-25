@@ -20,7 +20,7 @@ const getPost = (threads, board) => {
   const defRet =
     'Найс запрос, даунец\nСразу видно опытного двачера\nИди ракуй на b';
   if (!threads || !threads.length) return defRet;
-  const thread = sample(threads.filter(x => x && x.post));
+  const thread = sample(threads.filter(x => x?.post));
   if (!thread) return null;
   if (thread.status === 404) return defRet;
   let resStr = `/${board}/ #${thread.num}\n`;
@@ -31,14 +31,12 @@ const getPost = (threads, board) => {
 };
 
 export default async ctx => {
-  if (!ctx || !ctx.message || !ctx.message.text) return false;
+  if (!ctx?.message?.text) return false;
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
     const board = getBoard(ctx.message.text);
-    const needReply =
-      ctx.message.reply_to_message &&
-      ctx.message.reply_to_message.from.id === pyroBotId;
+    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
 
     const replyOptions = {
       reply_to_message_id: needReply ? ctx.message.message_id : null,

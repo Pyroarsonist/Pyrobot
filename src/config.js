@@ -23,5 +23,7 @@ export const google = {
   api: process.env.GOOGLE_API_KEY,
 };
 
+export const mongoDB = process.env.MONGO_DB;
+
 // eslint-disable-next-line no-underscore-dangle
 global.__DEV__ = process.env.NODE_ENV !== 'production';
