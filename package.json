@@ -5,7 +5,7 @@
   "description": "Pyrobot",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js --exec babel-node",
+    "start": "DEBUG=pyrobot:* nodemon src/index.js --exec babel-node",
     "build": "babel src -d dist",
     "serve": "node dist/index.js",
     "fix": "yarn run lint --fix",
@@ -25,7 +25,7 @@
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
-    "mongodb": "^3.1.8",
+    "mongoose": "^5.3.13",
     "named-regexp": "^0.1.1",
     "random-picture": "^0.1.1",
     "telegraf": "^3.24.0",

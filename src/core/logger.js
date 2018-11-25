@@ -1,8 +1,10 @@
 import winston from 'winston';
 import 'winston-daily-rotate-file';
 import fs from 'fs';
+import debugHandler from 'debug';
 import registerShutdownHandler from './shutdown';
 
+const debug = debugHandler('pyrobot:logger');
 const logDir = 'logs';
 
 if (!fs.existsSync(logDir)) {
@@ -40,9 +42,11 @@ const logger = winston.createLogger({
 });
 
 registerShutdownHandler(() => {
-  console.info('Shutting down logger');
+  debug('Shutting down logger');
   if (logger) logger.clear();
 });
-console.info('Starting logger');
+
+logger.info('Starting logger');
+debug('Starting logger');
 
 export default logger;
