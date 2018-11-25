@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import _ from 'lodash';
 import { findOrCreateChat, findOrCreateUser, Message } from '../index';
 

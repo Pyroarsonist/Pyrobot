@@ -98,6 +98,7 @@ module.exports = {
     'prettier/prettier': 'error',
 
     'css-modules/no-unused-class': 0,
+    'no-plusplus': 0,
   },
 
   settings: {
