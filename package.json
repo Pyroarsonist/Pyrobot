@@ -1,6 +1,6 @@
 {
   "name": "pyrobot",
-  "version": "0.3.0",
+  "version": "0.3.0a",
   "private": true,
   "description": "Pyrobot",
   "main": "src/index.js",
@@ -35,6 +35,7 @@
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/node": "^7.0.0",
+    "@babel/cli": "^7.1.5",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "babel-eslint": "^8.2.3",
