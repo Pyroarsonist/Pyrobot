@@ -8,10 +8,12 @@ import jojoTrigger from './jojoTrigger';
 import sayInChatTrigger from './sayInChatTrigger';
 import getChatsTrigger from './getChatsTrigger';
 import getUsersTrigger from './getUsersTrigger';
+import addAnswer from './addAnswer';
 
 // order matters
 function* generateTriggers() {
   // admin triggers
+  yield addAnswer;
   yield sayInChatTrigger;
   yield getUsersTrigger;
   yield getChatsTrigger;

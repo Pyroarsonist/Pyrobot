@@ -46,7 +46,7 @@ export default () => {
     const needReply = message?.replyToMessage?.from?.id === pyroBotId;
 
     if (
-      message.text.match(/pyro|пбот|pbot/gi) ||
+      message.text.match(/pyro|бот|bot/gi) ||
       needReply ||
       chat.type === 'private'
     ) {

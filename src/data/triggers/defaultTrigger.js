@@ -10,15 +10,9 @@ export default async ctx => {
     logger.error('No ctx in default trigger');
     return false;
   }
-  // const m = await new Answer({
-  //   answers: ['kek', 'anime'],
-  // }).save();
   const docs = await Answer.find({ regex: { $exists: false } });
   const answers = _.flatten(docs.map(a => a.answers));
   if (answers.length === 0) answers.push('ответы закончились((');
-  if (!ctx.message) {
-    return ctx.reply(_.sample(answers));
-  }
   const { message } = ctx;
 
   // eslint-disable-next-line camelcase

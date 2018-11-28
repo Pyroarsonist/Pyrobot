@@ -3,21 +3,12 @@ import logger from 'core/logger';
 import { Answer } from 'data/models';
 import _ from 'lodash';
 
-// const escapeStringRegexp = require('escape-string-regexp'); todo: add add regex method
-
 // todo: add named regexp
 export default async ctx => {
   if (!ctx?.message?.text) return false;
   let responses = null;
 
-  // const m = await new Answer({
-  //   regex: escapeStringRegexp('ukr'),
-  //   answers: ['kek', 'anime'],
-  // }).save(); todo: add add regex method
   const docs = await Answer.find({ regex: { $exists: true } });
-  if (!ctx.message) {
-    return false;
-  }
 
   docs.map(doc => {
     const str = doc.regex;
