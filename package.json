@@ -7,10 +7,12 @@
   "scripts": {
     "start": "DEBUG=pyrobot:* nodemon src/index.js --exec babel-node",
     "build": "babel src -d dist",
+    "clean": "rm -rf dist",
     "serve": "node dist/index.js",
     "fix": "yarn run lint --fix",
     "lint": "eslint -c .eslintrc.js --ignore-path .gitignore --ignore-pattern \"!**/.*\" .",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "deploy": "git pull && yarn run clean && yarn && yarn run build && DEBUG=pyrobot:* pm2 restart  pyrobot --env production --update-env"
   },
   "author": "Pyroarsonist <velikiydan@gmail.com>",
   "dependencies": {

@@ -27,9 +27,9 @@ async function findOrCreateUser(data) {
   if (foundedUser) {
     foundedUser = _.assign(foundedUser, user);
     await foundedUser.save();
-    logger.info(`New user arrived\n${JSON.stringify(user)}`);
   } else {
     foundedUser = await new User(user).save();
+    logger.info(`New user arrived\n${JSON.stringify(user)}`);
   }
 
   return foundedUser;

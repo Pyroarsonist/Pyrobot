@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import logger from 'core/logger';
-import { pyroBotId, answers } from 'constants';
+import { pyroBotId } from 'constants';
+import { Answer } from 'data/models';
 
 export default async ctx => {
   // cannot be
@@ -9,7 +10,9 @@ export default async ctx => {
     logger.error('No ctx in default trigger');
     return false;
   }
-  if (!ctx.message) return ctx.reply(_.sample(answers));
+  const docs = await Answer.find({ regex: { $exists: false } });
+  const answers = _.flatten(docs.map(a => a.answers));
+  if (answers.length === 0) answers.push('ответы закончились((');
   const { message } = ctx;
 
   // eslint-disable-next-line camelcase
