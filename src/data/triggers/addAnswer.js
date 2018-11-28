@@ -10,13 +10,8 @@ export default async ctx => {
   if (!ctx?.message?.text) return false;
   if (ctx?.from?.id !== pyroarsonistId) return false;
 
-  const escapedString = ctx.message.text.replace(
-    // eslint-disable-next-line no-useless-escape
-    /[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g,
-    '',
-  );
-  const data = regex.exec(escapedString);
-  const dataWithoutRegex = withoutRegex.exec(escapedString);
+  const data = regex.exec(ctx.message.text);
+  const dataWithoutRegex = withoutRegex.exec(ctx.message.text);
   if (data || dataWithoutRegex) {
     let regexToSave;
     const answers = data
