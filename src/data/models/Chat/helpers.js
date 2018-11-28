@@ -42,9 +42,9 @@ async function findOrCreateChat(data) {
   if (foundedChat) {
     foundedChat = _.assign(foundedChat, chat);
     await foundedChat.save();
-    logger.info(`New chat arrived\n${JSON.stringify(chat)}`);
   } else {
     foundedChat = await new Chat(chat).save();
+    logger.info(`New chat arrived\n${JSON.stringify(chat)}`);
   }
   return foundedChat;
 }

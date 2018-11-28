@@ -4,6 +4,7 @@ import User from './User';
 import findOrCreateUser from './User/helpers';
 import Message from './Message';
 import findOrCreateMessage from './Message/helpers';
+import Answer from './Answer';
 
 export {
   Chat,
@@ -12,4 +13,5 @@ export {
   findOrCreateChat,
   findOrCreateUser,
   findOrCreateMessage,
+  Answer,
 };

@@ -29,7 +29,6 @@ async function findOrCreateMessage(data) {
   if (foundedMessage) {
     foundedMessage = _.assign(foundedMessage, message);
     await foundedMessage.save();
-    // logger.info(`New message arrived\n${JSON.stringify(message)}`);
   } else {
     foundedMessage = await new Message(message).save();
   }
