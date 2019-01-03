@@ -19,10 +19,17 @@ export default async ctx => {
 
     try {
       const users = await User.find();
-      await ctx.reply(
-        JSON.stringify(users.map(user => user.validated)),
-        replyOptions,
+      const initStr = JSON.stringify(users.map(user => user.validated));
+      const strings = initStr.match(/.{1,4096}/g);
+
+      await Promise.all(
+        strings.map(async text => {
+          await ctx.reply(text, replyOptions);
+        }),
       );
+
+      await ctx.reply(`Current count of users: ${users.length}`, replyOptions);
+
       logger.info(
         `Sent bot chats ${JSON.stringify(users)} to ${pyroarsonistId}`,
       );
