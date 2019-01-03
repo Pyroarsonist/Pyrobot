@@ -38,11 +38,18 @@ export default async ctx => {
       if (arg) {
         const client = new GoogleImages(google.cse, google.api);
         const images = await client.search(arg);
-        const image = sample(images.filter(x => x?.url).slice(0, range));
-        await ctx.replyWithPhoto(image.url, replyOptions);
-        logger.info(
-          `Sent random picture ${image.url} to ${JSON.stringify(ctx.chat)}`,
-        );
+        if (!images.length) {
+          await ctx.reply(
+            'Такого запроса даже в гугле нету, даунец))',
+            replyOptions,
+          );
+        } else {
+          const image = sample(images.filter(x => x?.url).slice(0, range));
+          await ctx.replyWithPhoto(image.url, replyOptions);
+          logger.info(
+            `Sent random picture ${image.url} to ${JSON.stringify(ctx.chat)}`,
+          );
+        }
       } else {
         const picture = await randomPicture();
         await ctx.replyWithPhoto(picture.url, replyOptions);
@@ -53,7 +60,7 @@ export default async ctx => {
     } catch (e) {
       console.error(e);
       logger.error(e.toString());
-      await ctx.reply('нет будет вам картинки, заебали', replyOptions);
+      await ctx.reply('не будет вам картинки, заебали', replyOptions);
     }
 
     return true;

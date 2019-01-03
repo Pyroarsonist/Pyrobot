@@ -43,10 +43,10 @@ export default () => {
     logger.info(JSON.stringify(message));
 
     // todo refactor reply
-    const needReply = message?.replyToMessage?.from?.id === pyroBotId;
+    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
 
     if (
-      message.text.match(/pyro|бот|bot/gi) ||
+      message.text.match(/pyro|пбот|pbot/gi) ||
       needReply ||
       chat.type === 'private'
     ) {
