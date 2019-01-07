@@ -4,7 +4,7 @@ import { Schema } from 'mongoose';
 
 const Answer = new Schema(
   {
-    regex: String,
+    regex: { type: String, required: true, unique: true },
     answers: [String],
   },
   {

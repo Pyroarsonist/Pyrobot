@@ -1,5 +1,4 @@
 import { pyroBotId } from 'constants';
-import logger from 'core/logger';
 import { Answer } from 'data/models';
 import _ from 'lodash';
 
@@ -33,15 +32,6 @@ export default async ctx => {
       reply_to_message_id: needReply ? ctx.message.message_id : null,
     };
     await ctx.reply(_.sample(responses), replyOptions);
-    logger.info(
-      `Sent "${ctx.message.text}" to ${ctx.message.from.id}${
-        ctx.message.from.username ? `(@${ctx.message.from.username})` : ''
-      } into ${ctx.message.chat.id}${
-        ctx.message.chat
-          ? `${`(${ctx.message.chat.title} - @${ctx.message.chat.username})`}`
-          : ''
-      }${needReply ? ` via reply: ${ctx.message.message_id}` : ''}`,
-    );
     return true;
   }
 

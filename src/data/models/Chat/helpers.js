@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import logger from 'core/logger';
 import { Chat } from '../index';
 
 function chatFormatter({
@@ -44,7 +43,6 @@ async function findOrCreateChat(data) {
     await foundedChat.save();
   } else {
     foundedChat = await new Chat(chat).save();
-    logger.info(`New chat arrived\n${JSON.stringify(chat)}`);
   }
   return foundedChat;
 }

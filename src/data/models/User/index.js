@@ -1,10 +1,10 @@
 import { Schema } from 'mongoose';
 import db from 'core/mongo';
-import date from 'data/tools/date';
+import { date } from 'data/tools';
 
 const User = new Schema(
   {
-    id: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
     isBot: String,
     firstName: String,
     lastName: String,
@@ -28,6 +28,6 @@ function getUser() {
   };
 }
 
-User.virtual('validated').get(getUser);
+User.virtual('formatted').get(getUser);
 
 export default db.model('User', User);

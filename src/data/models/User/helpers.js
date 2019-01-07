@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import logger from 'core/logger';
 import { User } from '../index';
 
 function userFormatter({
@@ -29,7 +28,6 @@ async function findOrCreateUser(data) {
     await foundedUser.save();
   } else {
     foundedUser = await new User(user).save();
-    logger.info(`New user arrived\n${JSON.stringify(user)}`);
   }
 
   return foundedUser;

@@ -9,6 +9,7 @@ import sayInChatTrigger from './sayInChatTrigger';
 import getChatsTrigger from './getChatsTrigger';
 import getUsersTrigger from './getUsersTrigger';
 import addAnswer from './addAnswer';
+import getLastUniqueMessagesTrigger from './getLastUniqueMessagesTrigger';
 
 // order matters
 function* generateTriggers() {
@@ -17,6 +18,7 @@ function* generateTriggers() {
   yield sayInChatTrigger;
   yield getUsersTrigger;
   yield getChatsTrigger;
+  yield getLastUniqueMessagesTrigger;
 
   // triggers with arguments
   yield picTrigger;

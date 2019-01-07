@@ -1,5 +1,4 @@
 import { pyroarsonistId, pyroBotId } from 'constants';
-import logger from 'core/logger';
 import { Answer } from 'data/models';
 import { named as parse } from 'named-regexp';
 
@@ -33,10 +32,8 @@ export default async ctx => {
 
     try {
       await ctx.reply(toLog, replyOptions);
-      logger.info(toLog);
     } catch (e) {
       console.error(e);
-      logger.error(e.toString());
       await ctx.reply(`что-то пошло не так:\n${e}`, replyOptions);
     }
     return true;

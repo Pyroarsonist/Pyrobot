@@ -1,5 +1,4 @@
 import { pyroBotId } from 'constants';
-import logger from 'core/logger';
 import md5 from 'md5';
 import { findIndex } from 'lodash';
 
@@ -44,14 +43,11 @@ export default async ctx => {
     try {
       if (bool) {
         await ctx.replyWithPhoto(yesUrl, replyOptions);
-        logger.info(`Sent yes image to ${JSON.stringify(ctx.chat)}`);
       } else {
         await ctx.replyWithPhoto(noUrl, replyOptions);
-        logger.info(`Sent no image to ${JSON.stringify(ctx.chat)}`);
       }
     } catch (e) {
       console.error(e);
-      logger.error(e.toString());
       await ctx.reply('жожа сломалась(((', replyOptions);
     }
 
