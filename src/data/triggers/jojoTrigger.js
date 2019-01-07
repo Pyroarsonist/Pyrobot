@@ -1,5 +1,4 @@
 import { pyroBotId } from 'constants';
-import logger from 'core/logger';
 import { sample } from 'lodash';
 
 const regex = /jojo|жижа|жожо|dio|дио/gi;
@@ -13,6 +12,8 @@ const stickerPackNames = [
   'LINE_JoJo',
   'jojomeme',
   'JoJoNoKimyouNaBouken',
+  'Yoshikage Kira',
+  'Jojo',
 ];
 
 const getStickerFileName = async ctx => {
@@ -42,16 +43,11 @@ export default async ctx => {
       const file = await getStickerFileName(ctx);
       if (file) {
         await ctx.replyWithSticker(file.file_id, replyOptions);
-        logger.info(
-          `Sent jojo sticker fileName to ${JSON.stringify(ctx.chat)}\n`,
-        );
       } else {
         await ctx.reply('jare jare daze', replyOptions);
-        logger.info(`Sent jare jare daze to ${JSON.stringify(ctx.chat)}\n`);
       }
     } catch (e) {
       console.error(e);
-      logger.error(e.toString());
       await ctx.reply('kono dio da', replyOptions);
     }
     return true;

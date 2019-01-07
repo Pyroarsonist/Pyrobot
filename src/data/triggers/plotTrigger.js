@@ -1,5 +1,4 @@
 import { pyroBotId, plotUrl } from 'constants';
-import logger from 'core/logger';
 
 export default async ctx => {
   if (!ctx?.message?.text) return false;
@@ -12,7 +11,6 @@ export default async ctx => {
       reply_to_message_id: needReply ? ctx.message.message_id : null,
     };
     await ctx.replyWithPhoto(plotUrl, replyOptions);
-    logger.info(`Sent plot to ${JSON.stringify(ctx.chat)}`);
     return true;
   }
 

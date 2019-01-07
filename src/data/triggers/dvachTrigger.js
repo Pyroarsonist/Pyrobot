@@ -1,5 +1,4 @@
 import { pyroBotId } from 'constants';
-import logger from 'core/logger';
 import { sample, findIndex } from 'lodash';
 import h2p from 'html2plaintext';
 import DvachApi from 'dvach.js';
@@ -48,10 +47,8 @@ export default async ctx => {
 
       if (post) await ctx.reply(post, replyOptions);
       else await ctx.reply('сап двач', replyOptions);
-      logger.info(`Sent 2ch post to ${JSON.stringify(ctx.chat)}\n${post}`);
     } catch (e) {
       console.error(e);
-      logger.error(e.toString());
       await ctx.reply('двач сломался', replyOptions);
     }
     return true;

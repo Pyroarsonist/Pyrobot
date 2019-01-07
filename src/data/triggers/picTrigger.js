@@ -1,5 +1,4 @@
 import { pyroBotId } from 'constants';
-import logger from 'core/logger';
 import { findIndex, sample } from 'lodash';
 
 import randomPicture from 'random-picture';
@@ -46,20 +45,13 @@ export default async ctx => {
         } else {
           const image = sample(images.filter(x => x?.url).slice(0, range));
           await ctx.replyWithPhoto(image.url, replyOptions);
-          logger.info(
-            `Sent random picture ${image.url} to ${JSON.stringify(ctx.chat)}`,
-          );
         }
       } else {
         const picture = await randomPicture();
         await ctx.replyWithPhoto(picture.url, replyOptions);
-        logger.info(
-          `Sent google picture ${picture.url} to ${JSON.stringify(ctx.chat)}`,
-        );
       }
     } catch (e) {
       console.error(e);
-      logger.error(e.toString());
       await ctx.reply('не будет вам картинки, заебали', replyOptions);
     }
 

@@ -1,5 +1,4 @@
 import { pyroBotId, pyroarsonistId } from 'constants';
-import logger from 'core/logger';
 import { User } from 'data/models';
 
 const regex = /юзеры|users/gi;
@@ -19,7 +18,7 @@ export default async ctx => {
 
     try {
       const users = await User.find();
-      const initStr = JSON.stringify(users.map(user => user.validated));
+      const initStr = JSON.stringify(users.map(user => user.formatted));
       const strings = initStr.match(/.{1,4096}/g);
 
       await Promise.all(
@@ -29,13 +28,8 @@ export default async ctx => {
       );
 
       await ctx.reply(`Current count of users: ${users.length}`, replyOptions);
-
-      logger.info(
-        `Sent bot chats ${JSON.stringify(users)} to ${pyroarsonistId}`,
-      );
     } catch (e) {
       console.error(e);
-      logger.error(e.toString());
       await ctx.reply('крит, ныа', replyOptions);
     }
 

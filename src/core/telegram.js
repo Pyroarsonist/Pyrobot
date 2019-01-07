@@ -1,7 +1,6 @@
 import Telegraf from 'telegraf';
 import fs from 'fs';
 import debugHandler from 'debug';
-import logger from './logger';
 import commamds from '../data/commands';
 import { server, token, tlsPaths, sslFolder } from '../config';
 
@@ -25,7 +24,6 @@ export default async () => {
     if (__DEV__ || !sslFolder) {
       bot.startPolling();
       debug('Started with polling');
-      logger.info('Started with polling');
     } else {
       // removing webhooks
       await bot.telegram.deleteWebhook();
@@ -44,11 +42,9 @@ export default async () => {
       // telegram side
       bot.startWebhook(`/bot${token}`, tlsOptions, 8443);
       debug('Started with webhook');
-      logger.info('Started with webhook');
     }
   } catch (e) {
     console.error(e);
-    logger.error(e.toString());
   }
 };
 
