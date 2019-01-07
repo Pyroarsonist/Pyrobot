@@ -15,4 +15,15 @@ const Message = new Schema(
   },
 );
 
+function getMessage() {
+  return {
+    id: this.id,
+    user: this.user.username,
+    text: this.text,
+    date: new Date(+this.date * 1000).toTimeString(),
+  };
+}
+
+Message.virtual('formatted').get(getMessage);
+
 export default db.model('Message', Message);

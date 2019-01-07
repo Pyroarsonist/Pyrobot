@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import db from 'core/mongo';
-import date from 'data/tools/date';
+import { date } from 'data/tools';
 
 const Chat = new Schema(
   {
@@ -18,6 +18,8 @@ const Chat = new Schema(
     pinnedMessage: String,
     stickerSetName: String,
     catSetStickerSet: String,
+    users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
   },
   {
     timestamps: true,
@@ -36,6 +38,6 @@ function getChat() {
   };
 }
 
-Chat.virtual('validated').get(getChat);
+Chat.virtual('formatted').get(getChat);
 
 export default db.model('Chat', Chat);

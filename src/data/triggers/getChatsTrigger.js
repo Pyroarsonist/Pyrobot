@@ -18,10 +18,15 @@ export default async ctx => {
 
     try {
       const chats = await Chat.find();
-      await ctx.reply(
-        JSON.stringify(chats.map(chat => chat.validated)),
-        replyOptions,
+      const initStr = JSON.stringify(chats.map(user => user.formatted));
+      const strings = initStr.match(/.{1,4096}/g);
+
+      await Promise.all(
+        strings.map(async text => {
+          await ctx.reply(text, replyOptions);
+        }),
       );
+      await ctx.reply(`Current count of chats: ${chats.length}`, replyOptions);
     } catch (e) {
       console.error(e);
       await ctx.reply('крит, ныа', replyOptions);

@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import db from 'core/mongo';
-import date from 'data/tools/date';
+import { date } from 'data/tools';
 
 const User = new Schema(
   {
@@ -28,6 +28,6 @@ function getUser() {
   };
 }
 
-User.virtual('validated').get(getUser);
+User.virtual('formatted').get(getUser);
 
 export default db.model('User', User);

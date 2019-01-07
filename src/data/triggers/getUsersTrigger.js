@@ -18,7 +18,7 @@ export default async ctx => {
 
     try {
       const users = await User.find();
-      const initStr = JSON.stringify(users.map(user => user.validated));
+      const initStr = JSON.stringify(users.map(user => user.formatted));
       const strings = initStr.match(/.{1,4096}/g);
 
       await Promise.all(
