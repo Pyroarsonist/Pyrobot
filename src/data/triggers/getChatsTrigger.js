@@ -1,5 +1,4 @@
 import { pyroBotId, pyroarsonistId } from 'constants';
-import logger from 'core/logger';
 import { Chat } from 'data/models';
 
 const regex = /чаты|chats/gi;
@@ -23,12 +22,8 @@ export default async ctx => {
         JSON.stringify(chats.map(chat => chat.validated)),
         replyOptions,
       );
-      logger.info(
-        `Sent bot chats ${JSON.stringify(chats)} to ${pyroarsonistId}`,
-      );
     } catch (e) {
       console.error(e);
-      logger.error(e.toString());
       await ctx.reply('крит, ныа', replyOptions);
     }
 

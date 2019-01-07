@@ -4,7 +4,7 @@ import date from 'data/tools/date';
 
 const Chat = new Schema(
   {
-    id: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
     type: String,
     title: String,
     username: String,

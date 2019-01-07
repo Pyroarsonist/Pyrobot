@@ -11,8 +11,7 @@
     "serve": "node dist/index.js",
     "fix": "yarn run lint --fix",
     "lint": "eslint -c .eslintrc.js --ignore-path .gitignore --ignore-pattern \"!**/.*\" .",
-    "precommit": "lint-staged",
-    "deploy": "git pull && yarn run clean && yarn && yarn run build && DEBUG=pyrobot:* pm2 restart  pyrobot --env production --update-env"
+    "precommit": "lint-staged"
   },
   "author": "Pyroarsonist <velikiydan@gmail.com>",
   "dependencies": {
@@ -31,9 +30,7 @@
     "mongoose": "^5.3.13",
     "named-regexp": "^0.1.1",
     "random-picture": "^0.1.1",
-    "telegraf": "^3.24.0",
-    "winston": "^3.1.0",
-    "winston-daily-rotate-file": "^3.3.2"
+    "telegraf": "^3.24.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
@@ -74,5 +71,8 @@
       "stylelint --fix",
       "git add --force"
     ]
+  },
+  "resolutions": {
+    "**/event-stream": "^4.0.1"
   }
 }

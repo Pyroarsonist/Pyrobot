@@ -1,5 +1,4 @@
 import { pyroBotId, pyroarsonistId } from 'constants';
-import logger from 'core/logger';
 import { findIndex } from 'lodash';
 
 const regex = /send|отправь/gi;
@@ -32,7 +31,6 @@ export default async ctx => {
     try {
       if (chatId && replyMessage) {
         await ctx.telegram.sendMessage(chatId, replyMessage);
-        logger.info(`Sent message ${replyMessage} to ${chatId}`);
         await ctx.reply('Сообщение отослано успешно', replyOptions);
       } else {
         await ctx.reply(
@@ -42,16 +40,9 @@ export default async ctx => {
           })}`,
           replyOptions,
         );
-        logger.info(
-          `Sent error message ${JSON.stringify({
-            chatId,
-            replyMessage,
-          })} to ${JSON.stringify(ctx.chat)}`,
-        );
       }
     } catch (e) {
       console.error(e);
-      logger.error(e.toString());
       await ctx.reply('крит, ныа', replyOptions);
     }
 

@@ -3,7 +3,7 @@ import db from 'core/mongo';
 
 const Message = new Schema(
   {
-    id: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     chat: { type: Schema.Types.ObjectId, ref: 'Chat' },
     date: String,

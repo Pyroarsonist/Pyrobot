@@ -1,5 +1,4 @@
 import { bot } from 'core/telegram';
-import logger from 'core/logger';
 import { pyroBotId } from 'constants';
 import debugHandler from 'debug';
 import {
@@ -29,18 +28,12 @@ const checkOnTriggers = async ctx => {
 export default () => {
   bot.catch(err => {
     debug(err);
-    logger.error(err.toString());
   });
 
   bot.on('text', async ctx => {
     const chat = await findOrCreateChat(ctx.chat);
     await findOrCreateUser(ctx.from);
     const message = await findOrCreateMessage(ctx.message);
-
-    // todo: logs
-    // todo: logger standard
-
-    logger.info(JSON.stringify(message));
 
     // todo refactor reply
     const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
@@ -55,7 +48,6 @@ export default () => {
         const error = `Bot was not able to respond\nMessage:${JSON.stringify(
           message,
         )}`;
-        logger.error(error.toString());
         debug(error);
       }
     }

@@ -4,7 +4,7 @@ import date from 'data/tools/date';
 
 const User = new Schema(
   {
-    id: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
     isBot: String,
     firstName: String,
     lastName: String,
