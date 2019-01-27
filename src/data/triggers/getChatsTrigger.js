@@ -18,8 +18,12 @@ export default async ctx => {
 
     try {
       const chats = await Chat.find();
-      const initStr = JSON.stringify(chats.map(user => user.formatted));
-      const strings = initStr.match(/.{1,4096}/g);
+      const initStr = JSON.stringify(
+        chats.map(chat => chat.formatted),
+        null,
+        2,
+      );
+      const strings = initStr.match(/(.|[\r\n]){1,4096}/g);
 
       await Promise.all(
         strings.map(async text => {
