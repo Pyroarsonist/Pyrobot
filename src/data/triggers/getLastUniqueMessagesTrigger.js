@@ -28,12 +28,16 @@ export default async ctx => {
             // eslint-disable-next-line
             chat: chat._id,
           })
-            .sort('date')
+            .sort({ date: -1 })
             .limit(10)
             .populate('user');
-          const message = `${JSON.stringify(chat.formatted)}\n${relatedMessages
-            .slice(0, 10)
-            .map(x => JSON.stringify(x.formatted))
+          const message = `${JSON.stringify(
+            chat.formatted,
+            null,
+            2,
+          )}\n${relatedMessages
+            .reverse()
+            .map(x => JSON.stringify(x.formatted, null, 2))
             .join('\n')}`;
           await ctx.reply(message, replyOptions);
         }),

@@ -1,5 +1,6 @@
 import { Schema } from 'mongoose';
 import db from 'core/mongo';
+import { date } from 'data/tools';
 
 const Message = new Schema(
   {
@@ -16,11 +17,14 @@ const Message = new Schema(
 );
 
 function getMessage() {
+  const names = [];
+  if (this.user.firstName) names.push(this.user.firstName);
+  if (this.user.lastName) names.push(this.user.lastName);
   return {
     id: this.id,
-    user: this.user.username,
+    user: this.user.username || names.join(' '),
     text: this.text,
-    date: new Date(+this.date * 1000).toTimeString(),
+    date: date(this.date * 1000),
   };
 }
 
