@@ -33,6 +33,7 @@ function getChat() {
     type: this.type,
     firstName: this.firstName,
     lastName: this.firstName,
+    title: this.title,
     createdAt: date(this.createdAt),
     updatedAt: date(this.updatedAt),
   };
