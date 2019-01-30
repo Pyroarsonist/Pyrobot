@@ -58,7 +58,10 @@ export default () => {
       'venue',
     ],
     async ctx => {
-      if (ctx.pyroInfo.replyOptions || ctx.pyroInfo.chat.type === 'private')
+      if (
+        ctx.pyroInfo.replyOptions.reply_to_message_id ||
+        ctx.pyroInfo.chat.type === 'private'
+      )
         await ctx.reply(
           'Пока что на такое не умею отвечать',
           ctx.pyroInfo.replyOptions,
