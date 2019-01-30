@@ -6,6 +6,7 @@ import picTrigger from './picTrigger';
 import yesOrNoTrigger from './yesOrNoTrigger';
 import jojoTrigger from './jojoTrigger';
 import sayInChatTrigger from './sayInChatTrigger';
+import broadcastTrigger from './broadcastTrigger';
 import getChatsTrigger from './getChatsTrigger';
 import getUsersTrigger from './getUsersTrigger';
 import addAnswer from './addAnswer';
@@ -16,6 +17,7 @@ function* generateTriggers() {
   // admin triggers
   yield addAnswer;
   yield sayInChatTrigger;
+  yield broadcastTrigger;
   yield getUsersTrigger;
   yield getChatsTrigger;
   yield getLastUniqueMessagesTrigger;

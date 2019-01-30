@@ -1,15 +1,16 @@
 import { findIndex } from 'lodash';
+import { Chat } from 'data/models';
 
-const regex = /send|отправь/gi;
+const regex = /вещай|broadcast/gi;
 
-const getArgs = text => {
+const getBroadcastMessage = text => {
   if (text) {
     const split = text.split(' ');
     const index = findIndex(split, word => !!word.match(regex));
-    if (split.length <= index + 2) return [];
-    return [split[index + 1], split.slice(index + 2).join(' ')];
+    if (split.length <= index + 1) return null;
+    return split.slice(index + 1).join(' ');
   }
-  return [];
+  return null;
 };
 
 export default async ctx => {
@@ -17,20 +18,21 @@ export default async ctx => {
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
-    const [chatId, replyMessage] = getArgs(ctx.message.text);
+    const broadcastMessage = getBroadcastMessage(ctx.message.text);
 
     try {
-      if (chatId && replyMessage) {
-        await ctx.telegram.sendMessage(chatId, replyMessage);
-        await ctx.reply(
-          'Сообщение отослано успешно',
-          ctx.pyroInfo.replyOptions,
+      if (broadcastMessage) {
+        const chats = await Chat.find();
+        await Promise.all(
+          chats.map(async chat => {
+            await ctx.telegram.sendMessage(chat.id, broadcastMessage);
+          }),
         );
+        await ctx.reply('Сообщение вещано успешно', ctx.pyroInfo.replyOptions);
       } else {
         await ctx.reply(
           `Ты не правильно вписал аргументы\n${JSON.stringify({
-            chatId,
-            replyMessage,
+            broadcastMessage,
           })}`,
           ctx.pyroInfo.replyOptions,
         );

@@ -1,5 +1,5 @@
 import { bot } from 'core/telegram';
-import { pyroBotId } from 'constants';
+import { pyroBotId, pyroarsonistId } from 'constants';
 import debugHandler from 'debug';
 import {
   findOrCreateUser,
@@ -30,23 +30,60 @@ export default () => {
     debug(err);
   });
 
+  bot.use(async (ctx, next) => {
+    ctx.pyroInfo = {};
+    ctx.pyroInfo.user = await findOrCreateUser(ctx.from);
+    ctx.pyroInfo.chat = await findOrCreateChat(ctx.from);
+    ctx.pyroInfo.message = await findOrCreateMessage(ctx.message);
+    ctx.pyroInfo.replyOptions = {
+      reply_to_message_id:
+        ctx.message?.reply_to_message?.from?.id === pyroBotId
+          ? ctx.message.message_id
+          : null,
+    };
+    ctx.pyroInfo.isAdmin = ctx.from.id === pyroarsonistId;
+    return next(ctx);
+  });
+
+  bot.on(
+    [
+      'audio',
+      'document',
+      'photo',
+      'sticker',
+      'video',
+      'voice',
+      'contact',
+      'location',
+      'venue',
+    ],
+    async ctx => {
+      if (ctx.pyroInfo.replyOptions || ctx.pyroInfo.chat.type === 'private')
+        await ctx.reply(
+          'Пока что на такое не умею отвечать',
+          ctx.pyroInfo.replyOptions,
+        );
+    },
+  );
+
+  bot.on('left_chat_member', async ctx => {
+    await ctx.reply('О. петух вышел))0');
+  });
+
+  bot.on('new_chat_members', async ctx => {
+    await ctx.reply('Вечер в хату, часик в радость');
+  });
+
   bot.on('text', async ctx => {
-    const chat = await findOrCreateChat(ctx.chat);
-    await findOrCreateUser(ctx.from);
-    const message = await findOrCreateMessage(ctx.message);
-
-    // todo refactor reply
-    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
-
     if (
-      message.text.match(/pyro|пбот|pbot/gi) ||
-      needReply ||
-      chat.type === 'private'
+      ctx.pyroInfo.message.text.match(/pyro|пбот|pbot/gi) ||
+      ctx.pyroInfo.replyOptions ||
+      ctx.pyroInfo.chat.type === 'private'
     ) {
       const wasTriggered = await checkOnTriggers(ctx);
       if (!wasTriggered) {
         const error = `Bot was not able to respond\nMessage:${JSON.stringify(
-          message,
+          ctx.pyroInfo.message,
         )}`;
         debug(error);
       }

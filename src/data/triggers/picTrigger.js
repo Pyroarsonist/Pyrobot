@@ -1,4 +1,3 @@
-import { pyroBotId } from 'constants';
 import { findIndex, sample } from 'lodash';
 
 import randomPicture from 'random-picture';
@@ -21,16 +20,8 @@ const getArg = text => {
 };
 
 export default async ctx => {
-  if (!ctx?.message?.text) return false;
-
   const response = !!ctx.message.text.match(regex);
   if (response) {
-    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
-
-    const replyOptions = {
-      reply_to_message_id: needReply ? ctx.message.message_id : null,
-    };
-
     const arg = getArg(ctx.message.text);
 
     try {
@@ -40,19 +31,22 @@ export default async ctx => {
         if (!images.length) {
           await ctx.reply(
             'Такого запроса даже в гугле нету, даунец))',
-            replyOptions,
+            ctx.pyroInfo.replyOptions,
           );
         } else {
           const image = sample(images.filter(x => x?.url).slice(0, range));
-          await ctx.replyWithPhoto(image.url, replyOptions);
+          await ctx.replyWithPhoto(image.url, ctx.pyroInfo.replyOptions);
         }
       } else {
         const picture = await randomPicture();
-        await ctx.replyWithPhoto(picture.url, replyOptions);
+        await ctx.replyWithPhoto(picture.url, ctx.pyroInfo.replyOptions);
       }
     } catch (e) {
       console.error(e);
-      await ctx.reply('не будет вам картинки, заебали', replyOptions);
+      await ctx.reply(
+        'не будет вам картинки, заебали',
+        ctx.pyroInfo.replyOptions,
+      );
     }
 
     return true;

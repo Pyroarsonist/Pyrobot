@@ -27,3 +27,8 @@ export const mongoDB = process.env.MONGO_DB;
 
 // eslint-disable-next-line no-underscore-dangle
 global.__DEV__ = process.env.NODE_ENV !== 'production';
+
+export const pyrobotId =
+  process.env.PYROBOT_ID || __DEV__
+    ? 396290834 // dev
+    : 503111149; // prod

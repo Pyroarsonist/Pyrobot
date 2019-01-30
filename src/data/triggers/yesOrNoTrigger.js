@@ -1,4 +1,3 @@
-import { pyroBotId } from 'constants';
 import md5 from 'md5';
 import { findIndex } from 'lodash';
 
@@ -27,28 +26,20 @@ const getBoolOfString = text => {
 };
 
 export default async ctx => {
-  if (!ctx?.message?.text) return false;
-
   const response = !!ctx.message.text.match(regex);
   if (response) {
-    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
-
-    const replyOptions = {
-      reply_to_message_id: needReply ? ctx.message.message_id : null,
-    };
-
     const arg = getArg(ctx.message.text);
     const bool = getBoolOfString(arg || '');
 
     try {
       if (bool) {
-        await ctx.replyWithPhoto(yesUrl, replyOptions);
+        await ctx.replyWithPhoto(yesUrl, ctx.pyroInfo.replyOptions);
       } else {
-        await ctx.replyWithPhoto(noUrl, replyOptions);
+        await ctx.replyWithPhoto(noUrl, ctx.pyroInfo.replyOptions);
       }
     } catch (e) {
       console.error(e);
-      await ctx.reply('жожа сломалась(((', replyOptions);
+      await ctx.reply('жожа сломалась(((', ctx.pyroInfo.replyOptions);
     }
 
     return true;

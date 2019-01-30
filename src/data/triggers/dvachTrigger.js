@@ -1,4 +1,3 @@
-import { pyroBotId } from 'constants';
 import { sample, findIndex } from 'lodash';
 import h2p from 'html2plaintext';
 import DvachApi from 'dvach.js';
@@ -30,26 +29,19 @@ const getPost = (threads, board) => {
 };
 
 export default async ctx => {
-  if (!ctx?.message?.text) return false;
-
   const response = !!ctx.message.text.match(regex);
   if (response) {
     const board = getBoard(ctx.message.text);
-    const needReply = ctx.message?.reply_to_message?.from?.id === pyroBotId;
-
-    const replyOptions = {
-      reply_to_message_id: needReply ? ctx.message.message_id : null,
-    };
 
     try {
       const threads = await DvachApi.getBoard(board);
       const post = getPost(threads, board);
 
-      if (post) await ctx.reply(post, replyOptions);
-      else await ctx.reply('сап двач', replyOptions);
+      if (post) await ctx.reply(post, ctx.pyroInfo.replyOptions);
+      else await ctx.reply('сап двач', ctx.pyroInfo.replyOptions);
     } catch (e) {
       console.error(e);
-      await ctx.reply('двач сломался', replyOptions);
+      await ctx.reply('двач сломался', ctx.pyroInfo.replyOptions);
     }
     return true;
   }
