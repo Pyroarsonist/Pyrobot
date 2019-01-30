@@ -67,17 +67,21 @@ export default () => {
   );
 
   bot.on('left_chat_member', async ctx => {
-    await ctx.reply('О. петух вышел))0');
+    const leftUser = await findOrCreateUser(ctx.message.left_chat_participant);
+    await ctx.replyWithMarkdown(`О. петух ${leftUser.mention} вышел))0`);
   });
 
   bot.on('new_chat_members', async ctx => {
-    await ctx.reply('Вечер в хату, часик в радость');
+    const newUser = await findOrCreateUser(ctx.message.new_chat_participant);
+    await ctx.replyWithMarkdown(
+      `Вечер в хату, ${newUser.mention}, часик в радость`,
+    );
   });
 
   bot.on('text', async ctx => {
     if (
       ctx.pyroInfo.message.text.match(/pyro|пбот|pbot/gi) ||
-      ctx.pyroInfo.replyOptions ||
+      ctx.pyroInfo.replyOptions.reply_to_message_id ||
       ctx.pyroInfo.chat.type === 'private'
     ) {
       const wasTriggered = await checkOnTriggers(ctx);
