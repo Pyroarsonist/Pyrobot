@@ -30,4 +30,28 @@ function getUser() {
 
 User.virtual('formatted').get(getUser);
 
+function getMention() {
+  const tg = `(tg://user?id=${this.id})`;
+  if (this.username) {
+    return `[@${this.username}]${tg}`;
+  }
+  const names = [];
+  if (this.firstName) names.push(this.firstName);
+  if (this.lastName) names.push(this.lastName);
+  return `[${names.join(' ')}]${tg}`;
+}
+
+function getName() {
+  if (this.username) {
+    return `*@${this.username}*`;
+  }
+  const names = [];
+  if (this.firstName) names.push(this.firstName);
+  if (this.lastName) names.push(this.lastName);
+  return `*${names.join(' ')}*`;
+}
+
+User.virtual('mention').get(getMention);
+User.virtual('name').get(getName);
+
 export default db.model('User', User);
