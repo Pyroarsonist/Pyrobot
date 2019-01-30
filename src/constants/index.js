@@ -1,7 +1,8 @@
+import { pyrobotId } from 'config';
 import answers from './answers';
 import regexes from './regexes';
 
-const pyroBotId = 503111149;
+const pyroBotId = pyrobotId;
 const pyroarsonistId = 358208027;
 
 const plotUrl =
