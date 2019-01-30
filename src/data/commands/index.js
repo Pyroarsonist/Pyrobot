@@ -33,11 +33,11 @@ export default () => {
   bot.use(async (ctx, next) => {
     ctx.pyroInfo = {};
     ctx.pyroInfo.user = await findOrCreateUser(ctx.from);
-    ctx.pyroInfo.chat = await findOrCreateChat(ctx.from);
+    ctx.pyroInfo.chat = await findOrCreateChat(ctx.chat);
     ctx.pyroInfo.message = await findOrCreateMessage(ctx.message);
     ctx.pyroInfo.replyOptions = {
       reply_to_message_id:
-        ctx.message?.reply_to_message?.from?.id === pyroBotId
+        ctx.message.reply_to_message?.from?.id === pyroBotId
           ? ctx.message.message_id
           : null,
     };
