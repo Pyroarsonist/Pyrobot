@@ -8,7 +8,7 @@ export default async ctx => {
   const response = !!ctx.message.text.match(regex);
   if (response) {
     try {
-      const date7DaysAgo = Date.now() - 7 * 24 * 60 * 60;
+      const date7DaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
       const chats = await Chat.find({
         updatedAt: { $gt: date7DaysAgo },
       });
