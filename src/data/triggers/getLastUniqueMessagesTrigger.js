@@ -1,4 +1,5 @@
 import { Chat, Message } from 'data/models';
+import Bluebird from 'bluebird';
 
 const regex = /сообщения|messages|msg/gi;
 
@@ -13,8 +14,9 @@ export default async ctx => {
         updatedAt: { $gt: date7DaysAgo },
       });
 
-      await Promise.all(
-        chats.map(async chat => {
+      await Bluebird.forEach(
+        chats,
+        async chat => {
           const relatedMessages = await Message.find({
             // eslint-disable-next-line
             chat: chat._id,
@@ -31,7 +33,8 @@ export default async ctx => {
             .map(x => JSON.stringify(x.formatted, null, 2))
             .join('\n')}`;
           await ctx.reply(message, ctx.pyroInfo.replyOptions);
-        }),
+        },
+        { concurrency: 1 },
       );
     } catch (e) {
       console.error(e);

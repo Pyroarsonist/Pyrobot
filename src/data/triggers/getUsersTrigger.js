@@ -1,4 +1,5 @@
 import { User } from 'data/models';
+import Bluebird from 'bluebird';
 
 const regex = /юзеры|users/gi;
 
@@ -16,10 +17,12 @@ export default async ctx => {
       );
       const strings = initStr.match(/(.|[\r\n]){1,4096}/g);
 
-      await Promise.all(
-        strings.map(async text => {
+      await Bluebird.forEach(
+        strings,
+        async text => {
           await ctx.reply(text, ctx.pyroInfo.replyOptions);
-        }),
+        },
+        { concurrency: 1 },
       );
 
       await ctx.reply(
