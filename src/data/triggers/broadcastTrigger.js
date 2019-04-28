@@ -25,7 +25,19 @@ export default async ctx => {
         const chats = await Chat.find();
         await Promise.all(
           chats.map(async chat => {
-            await ctx.telegram.sendMessage(chat.id, broadcastMessage);
+            try {
+              await ctx.telegram.sendMessage(chat.id, broadcastMessage);
+            } catch (e) {
+              console.error(e);
+              await ctx.reply(
+                `Ошибочка в\n${JSON.stringify(
+                  chat.formatted,
+                  null,
+                  2,
+                )}\n${e.toString()}`,
+                ctx.pyroInfo.replyOptions,
+              );
+            }
           }),
         );
         await ctx.reply('Сообщение вещано успешно', ctx.pyroInfo.replyOptions);
