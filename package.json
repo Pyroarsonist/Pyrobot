@@ -30,6 +30,7 @@
     "moment": "^2.22.2",
     "mongoose": "^5.3.13",
     "named-regexp": "^0.1.1",
+    "node-cron": "^2.0.3",
     "random-picture": "^0.1.1",
     "telegraf": "^3.24.0"
   },

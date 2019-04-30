@@ -2,6 +2,7 @@ import 'isomorphic-fetch';
 
 import debugHandler from 'debug';
 import telegram from './core/telegram';
+import scheduler from './core/scheduler';
 
 const debug = debugHandler('pyrobot:index');
 
@@ -15,8 +16,10 @@ process
     process.exit(1);
   });
 
-const promise = telegram().catch(err => debug(err.stack));
+const promise = telegram()
+  .then(scheduler)
+  .catch(err => debug(err.stack));
 
 promise.then(() => {
-  // init server
+  debug('Pyrobot started successfully');
 });
