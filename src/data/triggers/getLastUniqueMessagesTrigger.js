@@ -14,7 +14,7 @@ export default async ctx => {
         updatedAt: { $gt: date7DaysAgo },
       });
 
-      await Bluebird.forEach(
+      await Bluebird.each(
         chats,
         async chat => {
           const relatedMessages = await Message.find({
