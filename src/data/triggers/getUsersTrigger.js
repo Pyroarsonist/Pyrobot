@@ -17,7 +17,7 @@ export default async ctx => {
       );
       const strings = initStr.match(/(.|[\r\n]){1,4096}/g);
 
-      await Bluebird.forEach(
+      await Bluebird.each(
         strings,
         async text => {
           await ctx.reply(text, ctx.pyroInfo.replyOptions);
