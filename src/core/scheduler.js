@@ -32,11 +32,11 @@ const sendMessagesData = async () => {
   const { uniqMessages, uniqChats } = await getInfoData(MINUTES);
   const msgDiff = (uniqMessages / lastMessagesCount) * 100 - 100;
   const msgPercentString = lastMessagesCount
-    ? `${msgDiff > 0 ? '✅ +' : '🔴 -'} ${msgDiff.toPrecision(3)}%`
+    ? `${msgDiff > 0 ? '✅ +' : '🔴 -'}${Math.abs(msgDiff).toPrecision(5)}%`
     : '⚫️ последние данные отсутствуют';
   const chatsDiff = (uniqChats / lastChatsCount) * 100 - 100;
   const chatsPercentString = lastChatsCount
-    ? `${chatsDiff > 0 ? '✅ +' : '🔴 -'}${chatsDiff.toPrecision(3)}%`
+    ? `${chatsDiff > 0 ? '✅ +' : '🔴 -'}${Math.abs(chatsDiff).toPrecision(5)}%`
     : '⚫️ последние данные отсутствуют';
   const msgString = ` ${uniqMessages} сообщений (${msgPercentString})`;
   const chatsString = ` ${uniqChats} чатов (${chatsPercentString})`;
