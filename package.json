@@ -1,6 +1,6 @@
 {
   "name": "pyrobot",
-  "version": "0.4.3",
+  "version": "0.4.3a",
   "private": true,
   "description": "Pyrobot",
   "main": "src/index.js",
