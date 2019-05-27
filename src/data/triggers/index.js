@@ -11,6 +11,8 @@ import getChatsTrigger from './getChatsTrigger';
 import getUsersTrigger from './getUsersTrigger';
 import addAnswer from './addAnswer';
 import getLastUniqueMessagesTrigger from './getLastUniqueMessagesTrigger';
+import shrekTrigger from './shrekTrigger';
+import whatNiggerTrigger from './whatNiggerTrigger';
 
 // order matters
 function* generateTriggers() {
@@ -30,6 +32,8 @@ function* generateTriggers() {
   yield dvachTrigger;
   yield jojoTrigger;
   yield plotTrigger;
+  yield shrekTrigger;
+  yield whatNiggerTrigger;
 
   // regexes
   yield textTrigger;
