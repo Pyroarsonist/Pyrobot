@@ -25,6 +25,9 @@ export const google = {
 
 export const mongoDB = process.env.MONGO_DB;
 
+export const shrekGifId = process.env.SHREK_GIF_ID;
+export const whatNiggerGifId = process.env.WHAT_NIGGER_GIF_ID;
+
 // eslint-disable-next-line no-underscore-dangle
 global.__DEV__ = process.env.NODE_ENV !== 'production';
 
