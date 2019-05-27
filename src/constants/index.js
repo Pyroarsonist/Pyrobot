@@ -9,5 +9,14 @@ const plotUrl =
   'https://sun9-2.userapi.com/c830208/v830208240/ebe18/5gLJB1INRCo.jpg';
 
 const shrekGifId = 'CgADAgADcAQAAllxAAFJo8Q_K0PT-NkC';
+const whatNiggerGidid = 'CgADBAADHAEAAq5UJFOYpN65IP274AI';
 
-export { answers, regexes, pyroBotId, pyroarsonistId, plotUrl, shrekGifId };
+export {
+  answers,
+  regexes,
+  pyroBotId,
+  pyroarsonistId,
+  plotUrl,
+  shrekGifId,
+  whatNiggerGidid,
+};
