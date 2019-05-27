@@ -1,4 +1,4 @@
-import { shrekGifId } from 'constants';
+import { shrekGifId } from 'config';
 
 export default async ctx => {
   const response = !!ctx.message.text.match(/шрек|shrek/gi);
