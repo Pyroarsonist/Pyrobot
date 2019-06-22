@@ -10,7 +10,7 @@ module.exports = {
     'prettier/flowtype',
   ],
 
-  plugins: ['flowtype',  'prettier', 'jest'],
+  plugins: ['flowtype', 'prettier', 'jest'],
 
   globals: {
     __DEV__: true,
