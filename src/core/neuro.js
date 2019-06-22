@@ -32,7 +32,7 @@ const trainWithMoreData = async net => {
     text: { $exists: true },
   })
     .sort({ date: -1 })
-    .limit(config.messagesLimit);
+    .limit(+config.messagesLimit);
   networkManager.trainingSet.push(
     ...messages.map(m => ({
       input: encode(m.text),
@@ -40,10 +40,10 @@ const trainWithMoreData = async net => {
     })),
   );
   net.train(networkManager.trainingSet, {
-    iterations: config.iteration,
-    errorThresh: config.errorThresh,
+    iterations: +config.iteration,
+    errorThresh: +config.errorThresh,
     log: x => debug(x),
-    learningRate: config.learningRate,
+    learningRate: +config.learningRate,
   });
   networkManager.net = net.toFunction();
   const after = moment();
@@ -67,7 +67,7 @@ export default async () => {
     await trainWithMoreData(net);
     const interval = setInterval(async () => {
       await trainWithMoreData(net);
-    }, config.trainInterval);
+    }, +config.trainInterval);
 
     registerShutdownHandler(() => {
       debug('Shutting down neural network training');
