@@ -6,13 +6,11 @@ module.exports = {
   extends: [
     'airbnb',
     'plugin:flowtype/recommended',
-    'plugin:css-modules/recommended',
     'prettier',
     'prettier/flowtype',
-    'prettier/react',
   ],
 
-  plugins: ['flowtype', 'css-modules', 'prettier', 'jest'],
+  plugins: ['flowtype',  'prettier', 'jest'],
 
   globals: {
     __DEV__: true,
@@ -71,33 +69,10 @@ module.exports = {
       },
     ],
 
-    // Ensure <a> tags are valid
-    // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md
-    'jsx-a11y/anchor-is-valid': [
-      'error',
-      {
-        components: ['Link'],
-        specialLink: ['to'],
-        aspects: ['noHref', 'invalidHref', 'preferButton'],
-      },
-    ],
-
-    'jsx-a11y/label-has-for': false,
-    'jsx-a11y/click-events-have-key-events': false,
-
-    // Allow .js files to use JSX syntax
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
-    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
-
-    // Functional and class components are equivalent from React’s point of view
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md
-    'react/prefer-stateless-function': 'off',
-
     // ESLint plugin for prettier formatting
     // https://github.com/prettier/eslint-plugin-prettier
     'prettier/prettier': 'error',
 
-    'css-modules/no-unused-class': 0,
     'no-plusplus': 0,
   },
 

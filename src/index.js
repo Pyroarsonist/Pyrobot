@@ -3,6 +3,7 @@ import 'isomorphic-fetch';
 import debugHandler from 'debug';
 import telegram from './core/telegram';
 import scheduler from './core/scheduler';
+import neuro from './core/neuro';
 
 const debug = debugHandler('pyrobot:index');
 
@@ -16,7 +17,8 @@ process
     process.exit(1);
   });
 
-const promise = telegram()
+const promise = neuro()
+  .then(telegram)
   .then(scheduler)
   .catch(err => debug(err.stack));
 
