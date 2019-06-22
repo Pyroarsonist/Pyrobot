@@ -17,6 +17,7 @@
   "dependencies": {
     "async": "^2.2.0",
     "bluebird": "^3.5.4",
+    "brain.js": "^1.6.1",
     "copyfiles": "^2.0.0",
     "debug": "^4.1.0",
     "dotenv": "^6.0.0",

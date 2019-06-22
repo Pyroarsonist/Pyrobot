@@ -13,6 +13,7 @@ import addAnswer from './addAnswer';
 import getLastUniqueMessagesTrigger from './getLastUniqueMessagesTrigger';
 import shrekTrigger from './shrekTrigger';
 import whatNiggerTrigger from './whatNiggerTrigger';
+import neuroTrigger from './neuroTrigger';
 
 // order matters
 function* generateTriggers() {
@@ -29,6 +30,7 @@ function* generateTriggers() {
   yield yesOrNoTrigger;
 
   // triggers with code words
+  yield neuroTrigger;
   yield dvachTrigger;
   yield jojoTrigger;
   yield plotTrigger;

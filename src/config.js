@@ -28,6 +28,15 @@ export const mongoDB = process.env.MONGO_DB;
 export const shrekGifId = process.env.SHREK_GIF_ID;
 export const whatNiggerGifId = process.env.WHAT_NIGGER_GIF_ID;
 
+export const neuro = {
+  disabled: !!process.env.NEURO_DISABLED,
+  messagesLimit: !!process.env.NEURO_MESSAGES_LIMIT || 100,
+  iteration: process.env.NEURO_ITERATION || 150,
+  errorThresh: process.env.NEURO_ERROR_THRESH || 0.001,
+  learningRate: process.env.NEURO_LEARNING_RATE || 0.1,
+  trainInterval: process.env.NEURO_TRAIN_INTERVAL || 60 * 60 * 1000, // 1 hour
+};
+
 // eslint-disable-next-line no-underscore-dangle
 global.__DEV__ = process.env.NODE_ENV !== 'production';
 
