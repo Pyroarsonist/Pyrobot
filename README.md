@@ -6,9 +6,4 @@
 
 ### `yarn run build`
 
-- Builds server into `dist` folder
-
-### `yarn run serve`
-
-- Starts node-js server in `dist` folder
-
+- Builds server into `build` folder
