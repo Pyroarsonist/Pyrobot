@@ -2,10 +2,10 @@ module.exports = {
   apps: [
     {
       name: 'pyrobot',
-      script: 'dist/index.js',
+      script: 'build/index.js',
 
       autorestart: true,
-      max_memory_restart: '1G',
+      max_memory_restart: '2G',
 
       merge_logs: true,
       combine_logs: true,

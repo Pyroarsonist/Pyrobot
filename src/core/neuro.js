@@ -57,7 +57,7 @@ const trainWithMoreData = async net => {
 };
 
 export default async () => {
-  if (config.disabled) {
+  if (!config.enabled) {
     debug('Neuro disabled');
     return;
   }
