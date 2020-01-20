@@ -5,7 +5,7 @@ import onShutdown from 'core/shutdown';
 import moment from 'moment';
 import _ from 'lodash';
 import { godId } from 'data/constants';
-import { bot } from 'core/telegram';
+import { sendMessage } from 'core/telegram';
 
 const debug = debugHandler('pyrobot:scheduler');
 
@@ -41,7 +41,7 @@ const sendMessagesData = async () => {
   const msgString = ` ${uniqMessages} сообщений (${msgPercentString})`;
   const chatsString = ` ${uniqChats} чатов (${chatsPercentString})`;
   const replyMessage = `За ${MINUTES} минут пришло\n${msgString}\n${chatsString}`;
-  await bot.telegram.sendMessage(godId, replyMessage);
+  await sendMessage(godId, replyMessage);
   lastMessagesCount = uniqMessages;
   lastChatsCount = uniqChats;
 };

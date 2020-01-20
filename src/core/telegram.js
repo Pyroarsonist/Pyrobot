@@ -18,7 +18,7 @@ export default async () => {
 
     // loading commands
 
-    setupCommands();
+    setupCommands(bot);
 
     // setting up connection webhooks or polling
     if (__DEV__ || !sslFolder) {
@@ -48,4 +48,6 @@ export default async () => {
   }
 };
 
-export { bot };
+export const sendMessage = async (toId, replyMessage) => {
+  await bot.telegram.sendMessage(toId, replyMessage);
+};

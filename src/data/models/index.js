@@ -1,17 +1,15 @@
-import Chat from './Chat';
-import findOrCreateChat from './Chat/helpers';
-import User from './User';
-import findOrCreateUser from './User/helpers';
-import Message from './Message';
-import findOrCreateMessage from './Message/helpers';
+import Chat, { findOrCreateChat } from './Chat';
+import User, { findOrCreateUser } from './User';
 import Answer from './Answer';
+// eslint-disable-next-line import/no-cycle
+import Message, { findOrCreateMessage } from './Message';
 
 export {
   Chat,
   User,
-  Message,
   findOrCreateChat,
   findOrCreateUser,
+  Message,
   findOrCreateMessage,
   Answer,
 };

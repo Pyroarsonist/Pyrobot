@@ -1,4 +1,3 @@
-import { bot } from 'core/telegram';
 import { pyroBotId, godId } from 'data/constants';
 import debugHandler from 'debug';
 import {
@@ -25,7 +24,7 @@ const checkOnTriggers = async ctx => {
   return wasTriggered;
 };
 
-export default () => {
+export default bot => {
   bot.catch(err => {
     debug(err);
   });
