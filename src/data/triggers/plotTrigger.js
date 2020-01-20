@@ -1,4 +1,4 @@
-import { plotUrl } from 'constants';
+import { plotUrl } from 'data/constants';
 
 export default async ctx => {
   const response = !!ctx.message.text.match(/график|plot/gi);

@@ -2,7 +2,7 @@ import { Schema } from 'mongoose';
 import db from 'core/mongo';
 import { date } from 'data/tools';
 
-const User = new Schema(
+const Model = new Schema(
   {
     id: { type: String, required: true, unique: true },
     isBot: String,
@@ -28,7 +28,7 @@ function getUser() {
   };
 }
 
-User.virtual('formatted').get(getUser);
+Model.virtual('formatted').get(getUser);
 
 function getMention() {
   const tg = `(tg://user?id=${this.id})`;
@@ -51,7 +51,41 @@ function getName() {
   return `*${names.join(' ')}*`;
 }
 
-User.virtual('mention').get(getMention);
-User.virtual('name').get(getName);
+Model.virtual('mention').get(getMention);
+Model.virtual('name').get(getName);
 
-export default db.model('User', User);
+const User = db.model('User', Model);
+
+function userFormatter({
+  id,
+  is_bot,
+  first_name,
+  last_name,
+  username,
+  language_code,
+}) {
+  const user = {};
+  user.id = id;
+  user.isBot = is_bot;
+  user.firstName = first_name;
+  user.lastName = last_name;
+  user.username = username;
+  user.languageCode = language_code;
+  user.updatedAt = Date.now();
+  return user;
+}
+
+async function findOrCreateUser(data) {
+  const user = userFormatter(data);
+  let foundedUser = await User.findOne({ id: user.id });
+  if (foundedUser) {
+    foundedUser = Object.assign(foundedUser, user);
+    await foundedUser.save();
+  } else {
+    foundedUser = await new User(user).save();
+  }
+
+  return foundedUser;
+}
+export { findOrCreateUser };
+export default User;

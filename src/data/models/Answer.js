@@ -2,7 +2,7 @@
 import db from 'core/mongo';
 import { Schema } from 'mongoose';
 
-const Answer = new Schema(
+const Model = new Schema(
   {
     regex: { type: String, required: true, unique: true },
     answers: [String],
@@ -12,4 +12,4 @@ const Answer = new Schema(
   },
 );
 
-export default db.model('Answer', Answer);
+export default db.model('Answer', Model);

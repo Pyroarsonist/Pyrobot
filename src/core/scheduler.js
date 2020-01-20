@@ -1,11 +1,11 @@
 import debugHandler from 'debug';
 import cron from 'node-cron';
 import { Message } from 'data/models';
-import registerShutdownHandler from 'core/shutdown';
+import onShutdown from 'core/shutdown';
 import moment from 'moment';
 import _ from 'lodash';
-import { pyroarsonistId } from 'constants';
-import { bot } from 'core/telegram';
+import { godId } from 'data/constants';
+import { sendMessage } from 'core/telegram';
 
 const debug = debugHandler('pyrobot:scheduler');
 
@@ -41,7 +41,7 @@ const sendMessagesData = async () => {
   const msgString = ` ${uniqMessages} сообщений (${msgPercentString})`;
   const chatsString = ` ${uniqChats} чатов (${chatsPercentString})`;
   const replyMessage = `За ${MINUTES} минут пришло\n${msgString}\n${chatsString}`;
-  await bot.telegram.sendMessage(pyroarsonistId, replyMessage);
+  await sendMessage(godId, replyMessage);
   lastMessagesCount = uniqMessages;
   lastChatsCount = uniqChats;
 };
@@ -51,7 +51,7 @@ export default async function scheduler() {
   await sendMessagesData();
   const task = cron.schedule(`0 0 */1 * * *`, sendMessagesData);
 
-  registerShutdownHandler(() => {
+  onShutdown(() => {
     debug('Stopping tasks');
     task.stop();
   });
