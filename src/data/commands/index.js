@@ -1,5 +1,5 @@
 import { bot } from 'core/telegram';
-import { pyroBotId, pyroarsonistId } from 'constants';
+import { pyroBotId, godId } from 'data/constants';
 import debugHandler from 'debug';
 import {
   findOrCreateUser,
@@ -41,7 +41,7 @@ export default () => {
           ? ctx.message.message_id
           : null,
     };
-    ctx.pyroInfo.isAdmin = ctx.from.id === pyroarsonistId;
+    ctx.pyroInfo.isAdmin = ctx.from.id === godId;
     return next(ctx);
   });
 

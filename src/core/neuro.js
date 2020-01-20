@@ -1,7 +1,7 @@
 import debugHandler from 'debug';
 import brain from 'brain.js';
 import moment from 'moment';
-import registerShutdownHandler from 'core/shutdown';
+import onShutdown from 'core/shutdown';
 import _ from 'lodash';
 import { neuro as config } from 'config';
 import { Message } from 'data/models';
@@ -69,7 +69,7 @@ export default async () => {
       await trainWithMoreData(net);
     }, +config.trainInterval);
 
-    registerShutdownHandler(() => {
+    onShutdown(() => {
       debug('Shutting down neural network training');
       clearInterval(interval);
     });

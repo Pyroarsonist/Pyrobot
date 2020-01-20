@@ -1,7 +1,7 @@
 import Telegraf from 'telegraf';
 import fs from 'fs';
 import debugHandler from 'debug';
-import commamds from '../data/commands';
+import setupCommands from '../data/commands';
 import { server, token, tlsPaths, sslFolder } from '../config';
 
 const debug = debugHandler('pyrobot:telegram');
@@ -18,7 +18,7 @@ export default async () => {
 
     // loading commands
 
-    commamds();
+    setupCommands();
 
     // setting up connection webhooks or polling
     if (__DEV__ || !sslFolder) {

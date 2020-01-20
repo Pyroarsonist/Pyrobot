@@ -40,4 +40,5 @@ export const neuro = {
   trainInterval: process.env.NEURO_TRAIN_INTERVAL || 60 * 60 * 1000, // 1 hour
 };
 
-export const pyrobotId = process.env.PYROBOT_ID;
+export const pyroBotId = process.env.PYROBOT_ID;
+export const godId = process.env.GOD_ID;
