@@ -16,7 +16,6 @@
   "author": "Pyroarsonist <velikiydan@gmail.com>",
   "dependencies": {
     "bluebird": "^3.7.2",
-    "brain.js": "^2.0.0-alpha.12",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "dvach.js": "^0.0.5",
