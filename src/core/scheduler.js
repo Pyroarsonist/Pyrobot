@@ -17,13 +17,11 @@ let lastChatsCount = 0;
 async function getInfoData(interval) {
   const messages = await Message.find({
     createdAt: {
-      $gte: moment()
-        .subtract({ minutes: interval })
-        .toISOString(),
+      $gte: moment().subtract({ minutes: interval }).toISOString(),
     },
   });
   const uniqMessages = messages.length;
-  const uniqChats = _.uniq(messages.map(x => x.chat.toString())).length;
+  const uniqChats = _.uniq(messages.map((x) => x.chat.toString())).length;
   return { uniqMessages, uniqChats };
 }
 

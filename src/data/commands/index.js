@@ -9,7 +9,7 @@ import triggers from '../triggers';
 
 const debug = debugHandler('pyrobot:commands');
 
-const checkOnTriggers = async ctx => {
+const checkOnTriggers = async (ctx) => {
   let wasTriggered = false;
   const generator = triggers();
 
@@ -24,8 +24,8 @@ const checkOnTriggers = async ctx => {
   return wasTriggered;
 };
 
-export default bot => {
-  bot.catch(err => {
+export default (bot) => {
+  bot.catch((err) => {
     debug(err);
   });
 
@@ -56,31 +56,32 @@ export default bot => {
       'location',
       'venue',
     ],
-    async ctx => {
+    async (ctx) => {
       if (
         ctx.pyroInfo.replyOptions.reply_to_message_id ||
         ctx.pyroInfo.chat.type === 'private'
-      )
+      ) {
         await ctx.reply(
           'Пока что на такое не умею отвечать',
           ctx.pyroInfo.replyOptions,
         );
+      }
     },
   );
 
-  bot.on('left_chat_member', async ctx => {
+  bot.on('left_chat_member', async (ctx) => {
     const leftUser = await findOrCreateUser(ctx.message.left_chat_participant);
     await ctx.replyWithMarkdown(`О. петух ${leftUser.mention} вышел))0`);
   });
 
-  bot.on('new_chat_members', async ctx => {
+  bot.on('new_chat_members', async (ctx) => {
     const newUser = await findOrCreateUser(ctx.message.new_chat_participant);
     await ctx.replyWithMarkdown(
       `Вечер в хату, ${newUser.mention}, часик в радость`,
     );
   });
 
-  bot.on('text', async ctx => {
+  bot.on('text', async (ctx) => {
     if (
       ctx.pyroInfo.message.text.match(/pyro|пбот|pbot/gi) ||
       ctx.pyroInfo.replyOptions.reply_to_message_id ||

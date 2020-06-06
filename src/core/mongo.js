@@ -8,7 +8,7 @@ const db = mongoose.createConnection(mongoDB, {
   useNewUrlParser: true,
 });
 
-db.on('error', error => {
+db.on('error', (error) => {
   debug('Error in connecting to mongo: %o', error);
 });
 

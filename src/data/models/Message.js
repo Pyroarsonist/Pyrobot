@@ -20,8 +20,12 @@ const Model = new Schema(
 
 function getMessage() {
   const names = [];
-  if (this.user.firstName) names.push(this.user.firstName);
-  if (this.user.lastName) names.push(this.user.lastName);
+  if (this.user.firstName) {
+    names.push(this.user.firstName);
+  }
+  if (this.user.lastName) {
+    names.push(this.user.lastName);
+  }
   return {
     id: this.id,
     user: this.user.username || names.join(' '),
@@ -48,9 +52,10 @@ async function messageFormatter({
   message.chat = await findOrCreateChat(chat); // chat model
   message.date = dateVal;
   message.text = text;
-  if (reply_to_message)
+  if (reply_to_message) {
     // eslint-disable-next-line no-use-before-define
     message.replyToMessage = await findOrCreateMessage(reply_to_message);
+  }
 
   message.updatedAt = Date.now();
   return message;

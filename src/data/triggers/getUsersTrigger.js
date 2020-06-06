@@ -3,15 +3,17 @@ import Bluebird from 'bluebird';
 
 const regex = /юзеры|users/gi;
 
-export default async ctx => {
-  if (!ctx.pyroInfo.isAdmin) return false;
+export default async (ctx) => {
+  if (!ctx.pyroInfo.isAdmin) {
+    return false;
+  }
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
     try {
       const users = await User.find();
       const initStr = JSON.stringify(
-        users.map(user => user.formatted),
+        users.map((user) => user.formatted),
         null,
         2,
       );
@@ -19,7 +21,7 @@ export default async ctx => {
 
       await Bluebird.each(
         strings,
-        async text => {
+        async (text) => {
           await ctx.reply(text, ctx.pyroInfo.replyOptions);
         },
         { concurrency: 1 },

@@ -2,12 +2,12 @@ import { Answer } from 'data/models';
 import _ from 'lodash';
 
 // todo: add named regexp
-export default async ctx => {
+export default async (ctx) => {
   let responses = null;
 
   const docs = await Answer.find({ regex: { $exists: true } });
 
-  docs.map(doc => {
+  docs.map((doc) => {
     const str = doc.regex;
     const lastSlash = str.lastIndexOf('/');
 

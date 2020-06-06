@@ -3,18 +3,22 @@ import { Chat } from 'data/models';
 
 const regex = /вещай|broadcast/gi;
 
-const getBroadcastMessage = text => {
+const getBroadcastMessage = (text) => {
   if (text) {
     const split = text.split(' ');
-    const index = findIndex(split, word => !!word.match(regex));
-    if (split.length <= index + 1) return null;
+    const index = findIndex(split, (word) => !!word.match(regex));
+    if (split.length <= index + 1) {
+      return null;
+    }
     return split.slice(index + 1).join(' ');
   }
   return null;
 };
 
-export default async ctx => {
-  if (!ctx.pyroInfo.isAdmin) return false;
+export default async (ctx) => {
+  if (!ctx.pyroInfo.isAdmin) {
+    return false;
+  }
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
@@ -24,7 +28,7 @@ export default async ctx => {
       if (broadcastMessage) {
         const chats = await Chat.find();
         await Promise.all(
-          chats.map(async chat => {
+          chats.map(async (chat) => {
             try {
               await ctx.telegram.sendMessage(chat.id, broadcastMessage);
             } catch (e) {

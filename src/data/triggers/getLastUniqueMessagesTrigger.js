@@ -4,8 +4,10 @@ import moment from 'moment';
 
 const regex = /сообщения|messages|msg(?<hours> \d*)/gi;
 
-export default async ctx => {
-  if (!ctx.pyroInfo.isAdmin) return false;
+export default async (ctx) => {
+  if (!ctx.pyroInfo.isAdmin) {
+    return false;
+  }
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
@@ -19,15 +21,13 @@ export default async ctx => {
       } else {
         const chats = await Chat.find({
           updatedAt: {
-            $gte: moment()
-              .subtract({ hours })
-              .toISOString(),
+            $gte: moment().subtract({ hours }).toISOString(),
           },
         });
 
         await Bluebird.each(
           chats,
-          async chat => {
+          async (chat) => {
             const relatedMessages = await Message.find({
               // eslint-disable-next-line
               chat: chat._id,
@@ -41,7 +41,7 @@ export default async ctx => {
               2,
             )}\n${relatedMessages
               .reverse()
-              .map(x => JSON.stringify(x.formatted, null, 2))
+              .map((x) => JSON.stringify(x.formatted, null, 2))
               .join('\n')}`;
             await ctx.reply(message, ctx.pyroInfo.replyOptions);
           },

@@ -9,17 +9,19 @@ const regex = /картинка|pic|img|image|пик/gi;
 
 const range = 15;
 
-const getArg = text => {
+const getArg = (text) => {
   if (text) {
     const split = text.split(' ');
-    const index = findIndex(split, word => !!word.match(regex));
-    if (split.length <= index + 1) return null;
+    const index = findIndex(split, (word) => !!word.match(regex));
+    if (split.length <= index + 1) {
+      return null;
+    }
     return split.slice(index + 1).join(' ');
   }
   return null;
 };
 
-export default async ctx => {
+export default async (ctx) => {
   const response = !!ctx.message.text.match(regex);
   if (response) {
     const arg = getArg(ctx.message.text);
@@ -34,7 +36,7 @@ export default async ctx => {
             ctx.pyroInfo.replyOptions,
           );
         } else {
-          const image = sample(images.filter(x => x?.url).slice(0, range));
+          const image = sample(images.filter((x) => x?.url).slice(0, range));
           await ctx.replyWithPhoto(image.url, ctx.pyroInfo.replyOptions);
         }
       } else {

@@ -36,8 +36,12 @@ function getMention() {
     return `[@${this.username}]${tg}`;
   }
   const names = [];
-  if (this.firstName) names.push(this.firstName);
-  if (this.lastName) names.push(this.lastName);
+  if (this.firstName) {
+    names.push(this.firstName);
+  }
+  if (this.lastName) {
+    names.push(this.lastName);
+  }
   return `[${names.join(' ')}]${tg}`;
 }
 
@@ -46,8 +50,12 @@ function getName() {
     return `*@${this.username}*`;
   }
   const names = [];
-  if (this.firstName) names.push(this.firstName);
-  if (this.lastName) names.push(this.lastName);
+  if (this.firstName) {
+    names.push(this.firstName);
+  }
+  if (this.lastName) {
+    names.push(this.lastName);
+  }
   return `*${names.join(' ')}*`;
 }
 

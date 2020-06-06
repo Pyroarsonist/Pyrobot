@@ -6,8 +6,10 @@ const withoutRegex = parse(/add default answers (:<answers>.+)/);
 
 const delimiter = 'pyro-del';
 
-export default async ctx => {
-  if (!ctx.pyroInfo.isAdmin) return false;
+export default async (ctx) => {
+  if (!ctx.pyroInfo.isAdmin) {
+    return false;
+  }
 
   const data = regex.exec(ctx.message.text);
   const dataWithoutRegex = withoutRegex.exec(ctx.message.text);
@@ -16,10 +18,12 @@ export default async ctx => {
     const answers = data
       ? data.capture('answers')
       : dataWithoutRegex.capture('answers');
-    if (data) regexToSave = data.capture('regex');
+    if (data) {
+      regexToSave = data.capture('regex');
+    }
     const answer = await new Answer({
       regex: regexToSave,
-      answers: answers.split(delimiter).map(x => x.trim()),
+      answers: answers.split(delimiter).map((x) => x.trim()),
     }).save();
     const toLog = `Created new Answer:\n${JSON.stringify(answer)}`;
 

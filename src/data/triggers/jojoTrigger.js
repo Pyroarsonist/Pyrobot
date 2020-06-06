@@ -15,18 +15,20 @@ const stickerPackNames = [
   'JojosBA',
 ];
 
-const getStickerFileName = async ctx => {
+const getStickerFileName = async (ctx) => {
   const name = sample(stickerPackNames);
   ctx.webhookReply = false;
   const pack = await ctx.getStickerSet(name);
   ctx.webhookReply = true;
 
-  if (!pack || !pack.stickers) return null;
+  if (!pack || !pack.stickers) {
+    return null;
+  }
   // eslint-disable-next-line camelcase
-  return sample(pack.stickers.filter(x => x?.file_id));
+  return sample(pack.stickers.filter((x) => x?.file_id));
 };
 
-export default async ctx => {
+export default async (ctx) => {
   const response = !!ctx.message.text.match(regex);
   if (response) {
     try {
