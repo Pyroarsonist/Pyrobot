@@ -4,6 +4,8 @@ import DvachApi from 'dvach.js';
 
 const regex = /dvach|двач|2ch/gi;
 
+const errorMessage = 'Timeout on dvach request';
+
 const getBoard = (text) => {
   let res = 'b';
   if (text) {
@@ -36,13 +38,21 @@ const getPost = (threads, board) => {
   return resStr;
 };
 
+const initTimeout = () =>
+  new Promise((res, rej) => {
+    setTimeout(() => rej(new Error(errorMessage)), 5000);
+  });
+
 export default async (ctx) => {
   const response = !!ctx.message.text.match(regex);
   if (response) {
     const board = getBoard(ctx.message.text);
 
     try {
-      const threads = await DvachApi.getBoard(board);
+      const threads = await Promise.race([
+        DvachApi.getBoard(board),
+        initTimeout(),
+      ]);
       const post = getPost(threads, board);
 
       if (post) {
@@ -51,6 +61,14 @@ export default async (ctx) => {
         await ctx.reply('сап двач', ctx.pyroInfo.replyOptions);
       }
     } catch (e) {
+      if (e.message === errorMessage) {
+        await ctx.reply(
+          'двач таймаутнулся, долго запросик к ним в апишку ходит',
+          ctx.pyroInfo.replyOptions,
+        );
+        return true;
+      }
+
       console.error(e);
       await ctx.reply('двач сломался', ctx.pyroInfo.replyOptions);
     }

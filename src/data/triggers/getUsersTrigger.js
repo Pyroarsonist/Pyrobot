@@ -11,21 +11,17 @@ export default async (ctx) => {
   const response = !!ctx.message.text.match(regex);
   if (response) {
     try {
-      const users = await User.find();
+      const users = await User.findAll();
       const initStr = JSON.stringify(
-        users.map((user) => user.formatted),
+        users.map((user) => user.serialize()),
         null,
         2,
       );
       const strings = initStr.match(/(.|[\r\n]){1,4096}/g);
 
-      await Bluebird.each(
-        strings,
-        async (text) => {
-          await ctx.reply(text, ctx.pyroInfo.replyOptions);
-        },
-        { concurrency: 1 },
-      );
+      await Bluebird.each(strings, async (text) => {
+        await ctx.reply(text, ctx.pyroInfo.replyOptions);
+      });
 
       await ctx.reply(
         `Current count of users: ${users.length}`,

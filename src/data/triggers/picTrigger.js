@@ -1,6 +1,6 @@
 import { findIndex, sample } from 'lodash';
 
-import randomPicture from 'random-picture';
+import { RandomPicture as randomPicture } from 'random-picture';
 import GoogleImages from 'google-images';
 
 import { google } from 'config';

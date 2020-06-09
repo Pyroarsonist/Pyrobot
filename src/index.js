@@ -1,6 +1,7 @@
 import debugHandler from 'debug';
 import telegram from './core/telegram';
 import scheduler from './core/scheduler';
+import models from './data/models';
 
 const debug = debugHandler('pyrobot:startup');
 
@@ -15,6 +16,7 @@ process
   });
 
 (async () => {
+  await models.sync();
   await telegram();
   await scheduler();
   debug('Pyrobot started successfully');

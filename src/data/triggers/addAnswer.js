@@ -4,7 +4,8 @@ import { named as parse } from 'named-regexp';
 const regex = parse(/add answer (:<regex>\/.+\/\w*) (:<answers>.+)/);
 const withoutRegex = parse(/add default answers (:<answers>.+)/);
 
-const delimiter = 'pyro-del';
+// in message delimeter
+const delimiter = ';pyro-del;';
 
 export default async (ctx) => {
   if (!ctx.pyroInfo.isAdmin) {
@@ -21,10 +22,13 @@ export default async (ctx) => {
     if (data) {
       regexToSave = data.capture('regex');
     }
-    const answer = await new Answer({
+    const answer = await Answer.create({
       regex: regexToSave,
-      answers: answers.split(delimiter).map((x) => x.trim()),
-    }).save();
+      answers: answers
+        .split(delimiter)
+        .map((x) => x.trim())
+        .filter((x) => x),
+    });
     const toLog = `Created new Answer:\n${JSON.stringify(answer)}`;
 
     try {

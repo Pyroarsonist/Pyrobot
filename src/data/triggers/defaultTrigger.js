@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { Answer } from 'data/models';
+import { Op } from 'sequelize';
 
 export default async (ctx) => {
   // cannot be
@@ -7,8 +8,12 @@ export default async (ctx) => {
     console.error('No ctx in default trigger');
     return false;
   }
-  const docs = await Answer.find({ regex: { $exists: false } });
-  const answers = _.flatten(docs.map((a) => a.answers));
+  const docs = await Answer.findAll({
+    where: {
+      regex: { [Op.eq]: null },
+    },
+  });
+  const answers = _.flatten(docs.map((a) => a.answers.filter((x) => x)));
   if (answers.length === 0) {
     answers.push('ответы закончились((');
   }

@@ -26,7 +26,7 @@ export default async (ctx) => {
 
     try {
       if (broadcastMessage) {
-        const chats = await Chat.find();
+        const chats = await Chat.findAll();
         await Promise.all(
           chats.map(async (chat) => {
             try {
@@ -35,7 +35,7 @@ export default async (ctx) => {
               console.error(e);
               await ctx.reply(
                 `Ошибочка в\n${JSON.stringify(
-                  chat.formatted,
+                  chat.serialize(),
                   null,
                   2,
                 )}\n${e.toString()}`,
