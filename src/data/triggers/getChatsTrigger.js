@@ -3,27 +3,25 @@ import Bluebird from 'bluebird';
 
 const regex = /чаты|chats/gi;
 
-export default async ctx => {
-  if (!ctx.pyroInfo.isAdmin) return false;
+export default async (ctx) => {
+  if (!ctx.pyroInfo.isAdmin) {
+    return false;
+  }
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
     try {
-      const chats = await Chat.find();
+      const chats = await Chat.findAll();
       const initStr = JSON.stringify(
-        chats.map(chat => chat.formatted),
+        chats.map((chat) => chat.serialize()),
         null,
         2,
       );
       const strings = initStr.match(/(.|[\r\n]){1,4096}/g);
 
-      await Bluebird.each(
-        strings,
-        async text => {
-          await ctx.reply(text, ctx.pyroInfo.replyOptions);
-        },
-        { concurrency: 1 },
-      );
+      await Bluebird.each(strings, async (text) => {
+        await ctx.reply(text, ctx.pyroInfo.replyOptions);
+      });
 
       await ctx.reply(
         `Current count of chats: ${chats.length}`,

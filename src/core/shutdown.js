@@ -6,12 +6,14 @@ const debug = debugHandler('pyrobot:shutdown');
 const handlers = [];
 
 const shutdown = async () => {
-  await Promise.all(handlers.map(x => x()));
-  process.exit();
+  await Promise.all(handlers.map((x) => x()));
+  process.exit(1);
 };
 
 export default function onShutdown(func) {
-  if (!_.isFunction(func)) return debug('Handler is not a function %o', func);
+  if (!_.isFunction(func)) {
+    return debug('Handler is not a function %o', func);
+  }
   handlers.push(func);
   return handlers;
 }

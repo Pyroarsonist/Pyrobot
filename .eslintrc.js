@@ -1,88 +1,69 @@
-// ESLint configuration
-// http://eslint.org/docs/user-guide/configuring
 module.exports = {
-  parser: 'babel-eslint',
-
-  extends: [
-    'airbnb',
-    'plugin:flowtype/recommended',
-    'prettier',
-    'prettier/flowtype',
-  ],
-
-  plugins: ['flowtype', 'prettier', 'jest'],
-
-  globals: {
-    __DEV__: true,
-  },
-
   env: {
     browser: true,
-    'jest/globals': true,
+    es6: true,
+    node: true,
   },
-
-  rules: {
-    // telegram using snake case vars
-    camelcase: 'off',
-
-    // Forbid the use of extraneous packages
-    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md
-    'import/no-extraneous-dependencies': ['error', { packageDir: '.' }],
-
-    // Recommend not to leave any console.log in your code
-    // Use console.error, console.warn and console.info instead
-    // https://eslint.org/docs/rules/no-console
-    'no-console': [
-      'error',
-      {
-        allow: ['warn', 'error', 'info'],
-      },
-    ],
-
-    radix: ['error', 'as-needed'],
-
-    // Allow only special identifiers
-    // https://eslint.org/docs/rules/no-underscore-dangle
-    'no-underscore-dangle': [
-      'error',
-      {
-        allow: ['__typename'],
-      },
-    ],
-
-    // Prefer destructuring from arrays and objects
-    // http://eslint.org/docs/rules/prefer-destructuring
-    'prefer-destructuring': [
-      'error',
-      {
-        VariableDeclarator: {
-          array: false,
-          object: true,
-        },
-        AssignmentExpression: {
-          array: false,
-          object: false,
-        },
-      },
-      {
-        enforceForRenamedProperties: false,
-      },
-    ],
-
-    // ESLint plugin for prettier formatting
-    // https://github.com/prettier/eslint-plugin-prettier
-    'prettier/prettier': 'error',
-
-    'no-plusplus': 0,
+  extends: ['airbnb-base', 'prettier'],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
   },
-
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
+  },
+  parser: 'babel-eslint',
+  plugins: ['unused-imports', 'prettier'],
   settings: {
-    // Allow absolute paths in imports, e.g. import Button from 'components/Button'
-    // https://github.com/benmosher/eslint-plugin-import/tree/master/resolvers
     'import/resolver': {
       node: {
         moduleDirectory: ['node_modules', 'src'],
       },
     },
+  },
+  rules: {
+    'unused-imports/no-unused-imports': 2,
+    'unused-imports/no-unused-vars': 2,
+    'no-console': [
+      2,
+      {
+        allow: ['warn', 'error', 'info'],
+      },
+    ],
+    'prettier/prettier': 2,
+    'jsx-a11y/alt-text': 0,
+    'arrow-body-style': [2, 'as-needed'],
+    radix: 'off',
+    'object-shorthand': 2,
+    'no-cond-assign': 2,
+    'no-undef': 2,
+    'no-useless-catch': 2,
+    'prefer-rest-params': 2,
+    'no-async-promise-executor': 2,
+    curly: 2,
+    'default-case': 2,
+    'default-param-last': 2,
+    eqeqeq: 2,
+    'max-classes-per-file': 1,
+    'no-caller': 2,
+    'no-eval': 2,
+    'no-extra-bind': 2,
+    'no-lone-blocks': 2,
+    'no-return-await': 2,
+    'vars-on-top': 2,
+    'no-var': 2,
+    'prefer-const': 2,
+    'no-use-before-define': 2,
+    camelcase: 0,
+    'no-case-declarations': 0,
+    'no-prototype-builtins': 0,
+    'function-call-argument-newline': [2, 'consistent'],
+    'brace-style': 2,
+    'prefer-destructuring': 2,
+    'no-plusplus': 0,
+    'no-continue': 0,
+    'prefer-template': 2,
+    'import/default': 2,
   },
 };

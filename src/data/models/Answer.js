@@ -1,15 +1,18 @@
-/* eslint-disable no-param-reassign */
-import db from 'core/mongo';
-import { Schema } from 'mongoose';
+import Sequelize from 'sequelize';
+import Model from '../sequelize';
 
-const Model = new Schema(
-  {
-    regex: { type: String, required: true, unique: true },
-    answers: [String],
+const Answer = Model.define('Answer', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
   },
-  {
-    timestamps: true,
+  regex: {
+    type: Sequelize.STRING(1024),
   },
-);
+  answers: {
+    type: Sequelize.ARRAY(Sequelize.STRING(1024)),
+  },
+});
 
-export default db.model('Answer', Model);
+export default Answer;

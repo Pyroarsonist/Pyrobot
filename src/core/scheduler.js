@@ -1,11 +1,12 @@
 import debugHandler from 'debug';
 import cron from 'node-cron';
-import { Message } from 'data/models';
+import { Message, Chat } from 'data/models';
 import onShutdown from 'core/shutdown';
 import moment from 'moment';
-import _ from 'lodash';
+
 import { godId } from 'data/constants';
 import { sendMessage } from 'core/telegram';
+import { Op } from 'sequelize';
 
 const debug = debugHandler('pyrobot:scheduler');
 
@@ -15,15 +16,17 @@ let lastMessagesCount = 0;
 let lastChatsCount = 0;
 
 async function getInfoData(interval) {
-  const messages = await Message.find({
+  const where = {
     createdAt: {
-      $gte: moment()
-        .subtract({ minutes: interval })
-        .toISOString(),
+      [Op.gte]: moment().subtract({ minutes: interval }).toISOString(),
     },
+  };
+  const uniqMessages = await Message.count({
+    where,
   });
-  const uniqMessages = messages.length;
-  const uniqChats = _.uniq(messages.map(x => x.chat.toString())).length;
+  const uniqChats = await Chat.count({
+    where,
+  });
   return { uniqMessages, uniqChats };
 }
 
