@@ -26,9 +26,6 @@ export const google = {
   api: process.env.GOOGLE_API_KEY,
 };
 
-// todo: remove
-export const mongoDB = process.env.MONGO_DB;
-
 export const databaseUrl = process.env.DATABASE_URL;
 
 export const media = {
