@@ -1,35 +1,55 @@
-import { Schema } from 'mongoose';
-import db from 'core/mongo';
+import Sequelize from 'sequelize';
 import { date } from 'data/tools';
+import Model from '../sequelize';
 
-const Model = new Schema(
-  {
-    id: { type: String, required: true, unique: true },
-    type: String,
-    title: String,
-    username: String,
-    firstName: String,
-    lastName: String,
-    allMembersAreAdministrators: String,
-    // get chat
-    photo: String,
-    description: String,
-    inviteLink: String,
-    pinnedMessage: String,
-    stickerSetName: String,
-    catSetStickerSet: String,
-    users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
+const Chat = Model.define('Chat', {
+  id: {
+    type: Sequelize.BIGINT,
+    primaryKey: true,
   },
-  {
-    timestamps: true,
+  type: {
+    type: Sequelize.STRING(32),
   },
-);
+  title: {
+    type: Sequelize.STRING(1024),
+  },
+  userName: {
+    type: Sequelize.STRING(1024),
+  },
+  firstName: {
+    type: Sequelize.STRING(1024),
+  },
+  lastName: {
+    type: Sequelize.STRING(1024),
+  },
+  allMembersAreAdministrators: {
+    type: Sequelize.STRING(1024),
+  },
+  // returned in get chat
+  photo: {
+    type: Sequelize.STRING(1024),
+  },
+  description: {
+    type: Sequelize.STRING(1024),
+  },
+  inviteLink: {
+    type: Sequelize.STRING(1024),
+  },
+  pinnedMessage: {
+    type: Sequelize.STRING(1024),
+  },
+  stickerSetName: {
+    type: Sequelize.STRING(1024),
+  },
+  catSetStickerSet: {
+    type: Sequelize.STRING(1024),
+  },
+});
 
-function getChat() {
+Chat.prototype.serialize = function serialize() {
   return {
     id: this.id,
-    username: this.username,
+    userName: this.userName,
     type: this.type,
     firstName: this.firstName,
     lastName: this.firstName,
@@ -37,56 +57,26 @@ function getChat() {
     createdAt: date(this.createdAt),
     updatedAt: date(this.updatedAt),
   };
-}
+};
 
-Model.virtual('formatted').get(getChat);
-
-const Chat = db.model('Chat', Model);
-
-function chatFormatter({
-  id,
-  type,
-  title,
-  username,
-  first_name,
-  last_name,
-  all_members_are_administrators,
-  photo,
-  description,
-  invite_link,
-  pinned_message,
-  sticker_set_name,
-  can_set_sticker_set,
-}) {
-  const chat = {};
-  chat.id = id;
-  chat.type = type;
-  chat.title = title;
-  chat.username = username;
-  chat.firstName = first_name;
-  chat.lastName = last_name;
-  chat.allMembersAreAdministrators = all_members_are_administrators;
-  // get chat
-  chat.photo = photo;
-  chat.description = description;
-  chat.inviteLink = invite_link;
-  chat.pinnedMessage = pinned_message;
-  chat.stickerSetName = sticker_set_name;
-  chat.catSetStickerSet = can_set_sticker_set;
-  chat.updatedAt = Date.now();
+Chat.assert = async (_data) => {
+  const data = {
+    id: _data.id,
+    type: _data.type,
+    title: _data.title,
+    userName: _data.username,
+    firstName: _data.first_name,
+    lastName: _data.last_name,
+    allMembersAreAdministrators: _data.all_members_are_administrators,
+    photo: _data.photo,
+    description: _data.description,
+    inviteLink: _data.invite_link,
+    pinnedMessage: _data.pinned_message,
+    stickerSetName: _data.sticker_set_name,
+    catSetStickerSet: _data.can_set_sticker_set,
+  };
+  const [chat] = await Chat.upsert(data, { returning: true });
   return chat;
-}
+};
 
-async function findOrCreateChat(data) {
-  const chat = chatFormatter(data);
-  let foundedChat = await Chat.findOne({ id: chat.id });
-  if (foundedChat) {
-    foundedChat = Object.assign(foundedChat, chat);
-    await foundedChat.save();
-  } else {
-    foundedChat = await new Chat(chat).save();
-  }
-  return foundedChat;
-}
-export { findOrCreateChat };
 export default Chat;

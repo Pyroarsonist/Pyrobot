@@ -1,73 +1,71 @@
-import { Schema } from 'mongoose';
-import db from 'core/mongo';
+import Sequelize from 'sequelize';
 import { date } from 'data/tools';
-// eslint-disable-next-line import/no-cycle
-import { findOrCreateChat, findOrCreateUser } from './index';
+import Model from '../sequelize';
 
-const Model = new Schema(
-  {
-    id: { type: String, required: true, unique: true },
-    user: { type: Schema.Types.ObjectId, ref: 'User' },
-    chat: { type: Schema.Types.ObjectId, ref: 'Chat' },
-    date: String,
-    text: String,
-    replyToMessage: { type: Schema.Types.ObjectId, ref: 'Message' },
-  },
-  {
-    timestamps: true,
-  },
-);
+import Chat from './Chat';
+import User from './User';
 
-function getMessage() {
+const Message = Model.define('Message', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+  },
+  date: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  text: {
+    type: Sequelize.STRING(1024),
+  },
+  replyToMessageId: {
+    type: Sequelize.INTEGER,
+  },
+});
+
+Message.prototype.serialize = function serialize() {
   const names = [];
-  if (this.user.firstName) names.push(this.user.firstName);
-  if (this.user.lastName) names.push(this.user.lastName);
+  if (this.user.firstName) {
+    names.push(this.user.firstName);
+  }
+  if (this.user.lastName) {
+    names.push(this.user.lastName);
+  }
   return {
     id: this.id,
-    user: this.user.username || names.join(' '),
+    user: this.user.userName || names.join(' '),
     text: this.text,
     date: date(this.date * 1000),
   };
-}
+};
 
-Model.virtual('formatted').get(getMessage);
+Message.assert = async (_data) => {
+  const data = {
+    id: _data.message_id,
+    date: _data.date,
+    text: _data.text,
+    replyToMessageId: _data.reply_to_message?.message_id,
+    userId: _data.from?.id,
+    chatId: _data.chat?.id,
+  };
+  const [message] = await Message.upsert(data, { returning: true });
 
-const Message = db.model('Message', Model);
+  if (_data.from) message.user = await User.assert(_data.from);
 
-async function messageFormatter({
-  message_id,
-  from,
-  chat,
-  date: dateVal,
-  text,
-  reply_to_message,
-}) {
-  const message = {};
-  message.id = message_id;
-  message.user = await findOrCreateUser(from); // user model
-  message.chat = await findOrCreateChat(chat); // chat model
-  message.date = dateVal;
-  message.text = text;
-  if (reply_to_message)
-    // eslint-disable-next-line no-use-before-define
-    message.replyToMessage = await findOrCreateMessage(reply_to_message);
+  if (_data.chat) message.chat = await Chat.assert(_data.chat);
 
-  message.updatedAt = Date.now();
-  return message;
-}
-
-async function findOrCreateMessage(data) {
-  const message = await messageFormatter(data);
-  let foundedMessage = await Message.findOne({ id: message.id });
-  if (foundedMessage) {
-    foundedMessage = Object.assign(foundedMessage, message);
-    await foundedMessage.save();
-  } else {
-    foundedMessage = await new Message(message).save();
+  if (data.replyToMessageId) {
+    message.replyToMessage = await Message.findByPk(data.replyToMessageId, {
+      include: [
+        {
+          model: User,
+          as: 'user',
+        },
+        { model: Chat, as: 'chat' },
+      ],
+    });
   }
 
-  return foundedMessage;
-}
+  return message;
+};
 
-export { findOrCreateMessage };
 export default Message;

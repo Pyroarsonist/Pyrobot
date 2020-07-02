@@ -6,17 +6,19 @@ const regex = /подскажи|tell me/gi;
 const yesUrl = 'https://i.ytimg.com/vi/sq_Fm7qfRQk/maxresdefault.jpg';
 const noUrl = 'https://i.ytimg.com/vi/VQgyv1XLp28/maxresdefault.jpg';
 
-const getArg = text => {
+const getArg = (text) => {
   if (text) {
     const split = text.split(' ');
-    const index = findIndex(split, word => !!word.match(regex));
-    if (split.length <= index + 1) return null;
+    const index = findIndex(split, (word) => !!word.match(regex));
+    if (split.length <= index + 1) {
+      return null;
+    }
     return split.slice(index + 1).join(' ');
   }
   return null;
 };
 
-const getBoolOfString = text => {
+const getBoolOfString = (text) => {
   const str = md5(text);
   let sum = 0;
   for (let i = 0; i < str.length; i++) {
@@ -25,7 +27,7 @@ const getBoolOfString = text => {
   return sum % 2;
 };
 
-export default async ctx => {
+export default async (ctx) => {
   const response = !!ctx.message.text.match(regex);
   if (response) {
     const arg = getArg(ctx.message.text);

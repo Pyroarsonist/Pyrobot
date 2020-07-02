@@ -21,7 +21,8 @@ export default async () => {
     setupCommands(bot);
 
     // setting up connection webhooks or polling
-    if (__DEV__ || !sslFolder) {
+    // eslint-disable-next-line
+    if (globalThis.__DEV__ || !sslFolder) {
       bot.startPolling();
       debug('Started with polling');
     } else {
