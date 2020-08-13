@@ -12,5 +12,4 @@ yarn-error.log
 .editorconfig
 .idea
 build
-.env
 .docker.yml

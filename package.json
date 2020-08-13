@@ -1,6 +1,6 @@
 {
   "name": "pyrobot",
-  "version": "0.5.0c",
+  "version": "1.0.0",
   "private": true,
   "description": "Pyrobot",
   "main": "src/index.js",
@@ -20,7 +20,7 @@
     "dvach.js": "^0.0.5",
     "google-images": "^2.1.0",
     "html2plaintext": "^2.1.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "md5": "^2.2.1",
     "moment": "^2.26.0",
     "named-regexp": "^0.1.1",
@@ -65,8 +65,5 @@
       "prettier --write",
       "git add --force"
     ]
-  },
-  "resolutions": {
-    "**/event-stream": "^4.0.1"
   }
 }
