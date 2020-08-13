@@ -14,4 +14,4 @@ WORKDIR /app
 COPY --from=BUILDER /app .
 
 EXPOSE 3000
-CMD ["node", "./build/index.js"]
+CMD ["DEBUG=pyrobot:*", "node", "./build/index.js"]

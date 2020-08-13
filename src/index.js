@@ -19,5 +19,6 @@ process
   await models.sync();
   await telegram();
   await scheduler();
-  debug('Pyrobot started successfully');
+  console.info('Pyrobot started successfully');
+  debug('Pyrobot started successfully with debug');
 })();
