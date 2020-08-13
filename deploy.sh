@@ -1,4 +1,4 @@
 docker build -t pyrobot .
-docker stop pyrobot
-docker rm pyrobot
-docker run -d -p 3000:3000 --name pyrobot pyrobot
+docker stop pyrobot || true
+docker rm pyrobot || true
+docker run -d --net=host --name pyrobot pyrobot
