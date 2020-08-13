@@ -65,8 +65,5 @@
       "prettier --write",
       "git add --force"
     ]
-  },
-  "resolutions": {
-    "**/event-stream": "^4.0.1"
   }
 }
