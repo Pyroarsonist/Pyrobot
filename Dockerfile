@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn --network-concurrency=1
+RUN yarn
 RUN yarn build
 
 
@@ -14,4 +14,4 @@ WORKDIR /app
 COPY --from=BUILDER /app .
 
 EXPOSE 3000
-CMD ["DEBUG=pyrobot:*", "node", "./build/index.js"]
+CMD ["node", "./build/index.js"]

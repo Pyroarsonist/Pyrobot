@@ -13,6 +13,13 @@ import addAnswer from './addAnswer';
 import getLastUniqueMessagesTrigger from './getLastUniqueMessagesTrigger';
 import shrekTrigger from './shrekTrigger';
 import whatNiggerTrigger from './whatNiggerTrigger';
+import cowTrigger from './cowTrigger';
+import catTrigger from './catTrigger';
+import faceTrigger from './faceTrigger';
+import yesTrigger from './yesTrigger';
+import noTrigger from './noTrigger';
+import superbTrigger from './superbTrigger';
+import langTrigger from './langTrigger';
 
 // order matters
 function* generateTriggers() {
@@ -29,6 +36,13 @@ function* generateTriggers() {
   yield yesOrNoTrigger;
 
   // triggers with code words
+  yield langTrigger;
+  yield superbTrigger;
+  yield noTrigger;
+  yield yesTrigger;
+  yield faceTrigger;
+  yield catTrigger;
+  yield cowTrigger;
   yield dvachTrigger;
   yield jojoTrigger;
   yield plotTrigger;
