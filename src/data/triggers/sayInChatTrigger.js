@@ -1,15 +1,27 @@
 import { findIndex } from 'lodash';
+import { Chat } from 'data/models';
 
 const regex = /send|отправь/gi;
 
-const getArgs = (text) => {
+const getArgs = async (text) => {
   if (text) {
     const split = text.split(' ');
     const index = findIndex(split, (word) => !!word.match(regex));
     if (split.length <= index + 2) {
       return [];
     }
-    return [split[index + 1], split.slice(index + 2).join(' ')];
+    let chatRef = split[index + 1];
+
+    if (chatRef.includes('@')) {
+      const chat = await Chat.findOne({
+        where: { userName: chatRef.substr(1) },
+      });
+      if (!chat) return [];
+      chatRef = chat.id;
+    }
+
+    const message = split.slice(index + 2).join(' ');
+    return [chatRef, message];
   }
   return [];
 };
@@ -21,7 +33,7 @@ export default async (ctx) => {
 
   const response = !!ctx.message.text.match(regex);
   if (response) {
-    const [chatId, replyMessage] = getArgs(ctx.message.text);
+    const [chatId, replyMessage] = await getArgs(ctx.message.text);
 
     try {
       if (chatId && replyMessage) {

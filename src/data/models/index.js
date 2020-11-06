@@ -3,6 +3,7 @@ import Chat from './Chat';
 import User from './User';
 import Answer from './Answer';
 import Message from './Message';
+import CronMessage from './CronMessage';
 
 User.hasMany(Message, {
   foreignKey: 'userId',
@@ -24,8 +25,13 @@ Message.belongsTo(Chat, {
   as: 'chat',
 });
 
+CronMessage.belongsTo(Chat, {
+  foreignKey: 'chatId',
+  as: 'chat',
+});
+
 const sync = (...args) => sequelize.sync(...args);
 
 export default { sync };
 
-export { Chat, User, Message, Answer };
+export { Chat, User, Message, Answer, CronMessage };
