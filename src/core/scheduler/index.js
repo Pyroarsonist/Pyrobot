@@ -7,6 +7,7 @@ import moment from 'moment';
 import { godId } from 'data/constants';
 import { sendMessage } from 'core/telegram';
 import { Op } from 'sequelize';
+import updateCronSchedulers from './updateCronSchedulers';
 
 const debug = debugHandler('pyrobot:scheduler');
 
@@ -52,10 +53,16 @@ const sendMessagesData = async () => {
 export default async function scheduler() {
   debug('Starting scheduler');
   await sendMessagesData();
-  const task = cron.schedule(`0 0 */1 * * *`, sendMessagesData);
+  await updateCronSchedulers();
+  const sendMessagingTask = cron.schedule(`0 0 */1 * * *`, sendMessagesData);
+  const updateCronSchedulersTask = cron.schedule(
+    `*/10 * * * *`,
+    updateCronSchedulers,
+  );
 
   onShutdown(() => {
     debug('Stopping tasks');
-    task.stop();
+    sendMessagingTask.stop();
+    updateCronSchedulersTask.stop();
   });
 }
