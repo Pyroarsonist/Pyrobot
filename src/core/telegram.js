@@ -49,6 +49,6 @@ export default async () => {
   }
 };
 
-export const sendMessage = async (toId, replyMessage) => {
-  await bot.telegram.sendMessage(toId, replyMessage);
+export const sendMessage = async (toId, message) => {
+  await bot.telegram.sendMessage(toId, message);
 };
