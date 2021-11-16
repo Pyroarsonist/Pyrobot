@@ -4,6 +4,7 @@ import textTrigger from './textTrigger';
 import dvachTrigger from './dvachTrigger';
 import picTrigger from './picTrigger';
 import yesOrNoTrigger from './yesOrNoTrigger';
+import twitchEmotesTrigger from './twitchEmotesTrigger';
 import jojoTrigger from './jojoTrigger';
 import sayInChatTrigger from './sayInChatTrigger';
 import broadcastTrigger from './broadcastTrigger';
@@ -34,6 +35,7 @@ function* generateTriggers() {
   // triggers with arguments
   yield picTrigger;
   yield yesOrNoTrigger;
+  yield twitchEmotesTrigger;
 
   // triggers with code words
   yield langTrigger;

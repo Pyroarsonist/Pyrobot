@@ -20,6 +20,8 @@ export default async () => {
 
     setupCommands(bot);
 
+    await bot.telegram.deleteWebhook();
+
     // setting up connection webhooks or polling
     // eslint-disable-next-line
     if (globalThis.__DEV__ || !sslFolder) {
@@ -27,7 +29,6 @@ export default async () => {
       debug('Started with polling');
     } else {
       // removing webhooks
-      await bot.telegram.deleteWebhook();
       const tlsOptions = {
         key: fs.readFileSync(tlsPaths.key), // Path to file with PEM private key
         cert: fs.readFileSync(tlsPaths.cert), // Path to file with PEM certificate,
