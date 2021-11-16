@@ -24,7 +24,7 @@
     "franc": "^5.0.0",
     "google-images": "^2.1.0",
     "html2plaintext": "^2.1.2",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "md5": "^2.2.1",
     "moment": "^2.26.0",
     "named-regexp": "^0.1.1",
