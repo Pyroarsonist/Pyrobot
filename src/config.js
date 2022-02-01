@@ -35,3 +35,8 @@ export const media = {
 
 export const pyroBotId = process.env.PYROBOT_ID;
 export const godId = process.env.GOD_ID;
+
+export const twitch = {
+  ID: process.env.TWITCH_CLIENT_ID,
+  SECRET: process.env.TWITCH_CLIENT_SECRET,
+};

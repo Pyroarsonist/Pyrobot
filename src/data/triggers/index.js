@@ -4,6 +4,7 @@ import textTrigger from './textTrigger';
 import dvachTrigger from './dvachTrigger';
 import picTrigger from './picTrigger';
 import yesOrNoTrigger from './yesOrNoTrigger';
+import twitchEmotesTrigger from './twitchEmotesTrigger';
 import jojoTrigger from './jojoTrigger';
 import sayInChatTrigger from './sayInChatTrigger';
 import broadcastTrigger from './broadcastTrigger';
@@ -20,6 +21,7 @@ import yesTrigger from './yesTrigger';
 import noTrigger from './noTrigger';
 import superbTrigger from './superbTrigger';
 import langTrigger from './langTrigger';
+import { covidTrigger } from './covidTrigger';
 
 // order matters
 function* generateTriggers() {
@@ -30,10 +32,12 @@ function* generateTriggers() {
   yield getUsersTrigger;
   yield getChatsTrigger;
   yield getLastUniqueMessagesTrigger;
+  yield covidTrigger;
 
   // triggers with arguments
   yield picTrigger;
   yield yesOrNoTrigger;
+  yield twitchEmotesTrigger;
 
   // triggers with code words
   yield langTrigger;
