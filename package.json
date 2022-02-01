@@ -16,6 +16,7 @@
   "author": "Pyroarsonist <velikiydan@gmail.com>",
   "dependencies": {
     "@mkody/twitch-emoticons": "^2.4.1",
+    "@pdf-lib/fontkit": "^1.1.1",
     "cat-ascii-faces": "^2.0.0",
     "cool-ascii-faces": "^1.3.4",
     "cows": "^2.1.0",
@@ -30,6 +31,7 @@
     "moment": "^2.26.0",
     "named-regexp": "^0.1.1",
     "node-cron": "^2.0.3",
+    "pdf-lib": "^1.17.1",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "random-picture": "^4.0.1",

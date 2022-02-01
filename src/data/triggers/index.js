@@ -21,6 +21,7 @@ import yesTrigger from './yesTrigger';
 import noTrigger from './noTrigger';
 import superbTrigger from './superbTrigger';
 import langTrigger from './langTrigger';
+import { covidTrigger } from './covidTrigger';
 
 // order matters
 function* generateTriggers() {
@@ -31,6 +32,7 @@ function* generateTriggers() {
   yield getUsersTrigger;
   yield getChatsTrigger;
   yield getLastUniqueMessagesTrigger;
+  yield covidTrigger;
 
   // triggers with arguments
   yield picTrigger;
