@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { PDFDocument, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import moment from 'moment';
@@ -79,7 +79,6 @@ const getPdf = async (dateString) => {
   });
 
   const pdfBytes = await pdfDoc.save();
-  await writeFile('./kek.pdf', pdfBytes);
 
   return Buffer.from(pdfBytes);
 };
