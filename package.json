@@ -35,7 +35,7 @@
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "random-picture": "^4.0.1",
-    "sequelize": "^5.21.12",
+    "sequelize": "^6.28.2",
     "superb": "^4.0.0",
     "telegraf": "^3.38.0",
     "yes-no-words": "^2.0.0"
